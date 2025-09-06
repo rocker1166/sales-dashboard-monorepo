@@ -3,6 +3,7 @@
 import { Box } from "@mui/material"
 import DashboardLayout from "@/components/layout/DashboardLayout"
 import DashboardContent from "@/components/dashboard/DashboardContent"
+import OptimalViewModal from "@/components/ui/OptimalViewModal"
 
 export default function HomePage() {
   return (
@@ -10,6 +11,7 @@ export default function HomePage() {
       <Box sx={{ flexGrow: 1 }}>
         <DashboardContent />
       </Box>
+      <OptimalViewModal />
     </DashboardLayout>
   )
 }
