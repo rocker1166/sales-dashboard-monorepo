@@ -1,7 +1,6 @@
 "use client"
 import { Card, CardContent, Typography, Box } from "@mui/material"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Tooltip, Cell } from "recharts"
-import { useState } from "react"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Tooltip } from "recharts"
 
 const data = [
   { month: "Jan", reality: 8.2, target: 12.1 },
@@ -14,13 +13,6 @@ const data = [
 ]
 
 export default function TargetVsReality() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const [selectedData, setSelectedData] = useState<any>(null)
-
-  const handleBarClick = (data: any, index: number) => {
-    setActiveIndex(index)
-    setSelectedData(data)
-  }
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -106,7 +98,6 @@ export default function TargetVsReality() {
                 right: 5, 
                 bottom: 5 
               }}
-              onClick={handleBarClick}
             >
               <CartesianGrid 
                 strokeDasharray="1 1" 
@@ -143,39 +134,13 @@ export default function TargetVsReality() {
                 fill="#10B981" 
                 radius={[2, 2, 0, 0]}
                 maxBarSize={50}
-                cursor="pointer"
-                onClick={(data, index) => handleBarClick(data, index)}
-              >
-                {data.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
-                    fill={activeIndex === index ? "#0D9B6C" : "#10B981"}
-                    style={{ 
-                      filter: activeIndex === index ? "brightness(0.8)" : "none",
-                      transition: "all 0.2s ease"
-                    }}
-                  />
-                ))}
-              </Bar>
+              />
               <Bar 
                 dataKey="target" 
                 fill="#F59E0B" 
                 radius={[2, 2, 0, 0]}
                 maxBarSize={50}
-                cursor="pointer"
-                onClick={(data, index) => handleBarClick(data, index)}
-              >
-                {data.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
-                    fill={activeIndex === index ? "#D97706" : "#F59E0B"}
-                    style={{ 
-                      filter: activeIndex === index ? "brightness(0.8)" : "none",
-                      transition: "all 0.2s ease"
-                    }}
-                  />
-                ))}
-              </Bar>
+              />
             </BarChart>
           </ResponsiveContainer>
         </Box>
@@ -315,58 +280,6 @@ export default function TargetVsReality() {
           </Box>
         </Box>
 
-        {/* Selected Data Display */}
-        {selectedData && (
-          <Box sx={{
-            mt: 2,
-            p: 2,
-            backgroundColor: "#F8F9FA",
-            borderRadius: "12px",
-            border: "1px solid #E2E8F0"
-          }}>
-            <Typography sx={{
-              fontSize: "14px",
-              fontWeight: 600,
-              color: "#05004E",
-              fontFamily: "'Poppins', sans-serif",
-              mb: 1
-            }}>
-              Selected: {selectedData.month}
-            </Typography>
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Box sx={{
-                  width: "12px",
-                  height: "12px",
-                  backgroundColor: "#10B981",
-                  borderRadius: "6px"
-                }} />
-                <Typography sx={{
-                  fontSize: "12px",
-                  color: "#7B91B0",
-                  fontFamily: "'Poppins', sans-serif"
-                }}>
-                  Reality: {selectedData.reality}k
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Box sx={{
-                  width: "12px",
-                  height: "12px",
-                  backgroundColor: "#F59E0B",
-                  borderRadius: "6px"
-                }} />
-                <Typography sx={{
-                  fontSize: "12px",
-                  color: "#7B91B0",
-                  fontFamily: "'Poppins', sans-serif"
-                }}>
-                  Target: {selectedData.target}k
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        )}
       </CardContent>
     </Card>
   )

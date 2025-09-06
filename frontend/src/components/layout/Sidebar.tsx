@@ -36,7 +36,7 @@ const menuItems = [
 
 export default function Sidebar() {
   return (
-    <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Box sx={{ height: "100%", display: "flex", flexDirection: "column", backgroundColor: "white" }}>
       {/* Logo */}
       <Box sx={{ p: 3, pt: 5, display: "flex", alignItems: "center", gap: 2 }}>
         <Box

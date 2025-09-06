@@ -52,43 +52,8 @@ export default function SalesMapping() {
             }}
           />
 
-          {/* Sample Data Points */}
-          <Box
-            sx={{
-              position: "absolute",
-              top: "30%",
-              left: "20%",
-              width: 12,
-              height: 12,
-              borderRadius: "50%",
-              backgroundColor: "#FF6B9D",
-              animation: "pulse 2s infinite",
-            }}
-          />
-          <Box
-            sx={{
-              position: "absolute",
-              top: "40%",
-              right: "25%",
-              width: 16,
-              height: 16,
-              borderRadius: "50%",
-              backgroundColor: "#10B981",
-              animation: "pulse 2s infinite",
-            }}
-          />
-          <Box
-            sx={{
-              position: "absolute",
-              bottom: "35%",
-              left: "30%",
-              width: 10,
-              height: 10,
-              borderRadius: "50%",
-              backgroundColor: "#3B82F6",
-              animation: "pulse 2s infinite",
-            }}
-          />
+    
+         
         </Box>
       </CardContent>
     </Card>

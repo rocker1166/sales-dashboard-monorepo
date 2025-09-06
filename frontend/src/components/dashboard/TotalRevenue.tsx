@@ -1,7 +1,6 @@
 "use client"
 import { Card, CardContent, Typography, Box } from "@mui/material"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Tooltip, Cell } from "recharts"
-import { useState } from "react"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Tooltip } from "recharts"
 
 const data = [
   { day: "Monday", onlineSales: 14, offlineSales: 12 },
@@ -14,13 +13,6 @@ const data = [
 ]
 
 export default function TotalRevenue() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const [selectedData, setSelectedData] = useState<any>(null)
-
-  const handleBarClick = (data: any, index: number) => {
-    setActiveIndex(index)
-    setSelectedData(data)
-  }
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -106,7 +98,6 @@ export default function TotalRevenue() {
                 right: 5,  
                 bottom: 30 
               }}
-              onClick={handleBarClick}
             >
               <CartesianGrid 
                 strokeDasharray="1 1" 
@@ -153,96 +144,18 @@ export default function TotalRevenue() {
                 name="Online Sales" 
                 radius={[2, 2, 0, 0]}
                 maxBarSize={50}
-                cursor="pointer"
-                onClick={(data, index) => handleBarClick(data, index)}
-              >
-                {data.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
-                    fill={activeIndex === index ? "#007ACC" : "#0095FF"}
-                    style={{ 
-                      filter: activeIndex === index ? "brightness(0.8)" : "none",
-                      transition: "all 0.2s ease"
-                    }}
-                  />
-                ))}
-              </Bar>
+              />
               <Bar 
                 dataKey="offlineSales" 
                 fill="#00E096" 
                 name="Offline Sales" 
                 radius={[2, 2, 0, 0]}
                 maxBarSize={50}
-                cursor="pointer"
-                onClick={(data, index) => handleBarClick(data, index)}
-              >
-                {data.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
-                    fill={activeIndex === index ? "#00B87A" : "#00E096"}
-                    style={{ 
-                      filter: activeIndex === index ? "brightness(0.8)" : "none",
-                      transition: "all 0.2s ease"
-                    }}
-                  />
-                ))}
-              </Bar>
+              />
             </BarChart>
           </ResponsiveContainer>
         </Box>
 
-        {/* Selected Data Display */}
-        {selectedData && (
-          <Box sx={{
-            mt: 2,
-            p: 2,
-            backgroundColor: "#F8F9FA",
-            borderRadius: "12px",
-            border: "1px solid #E2E8F0"
-          }}>
-            <Typography sx={{
-              fontSize: "14px",
-              fontWeight: 600,
-              color: "#05004E",
-              fontFamily: "'Poppins', sans-serif",
-              mb: 1
-            }}>
-              Selected: {selectedData.day}
-            </Typography>
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Box sx={{
-                  width: "12px",
-                  height: "12px",
-                  backgroundColor: "#0095FF",
-                  borderRadius: "2px"
-                }} />
-                <Typography sx={{
-                  fontSize: "12px",
-                  color: "#7B91B0",
-                  fontFamily: "'Poppins', sans-serif"
-                }}>
-                  Online: {selectedData.onlineSales}k
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Box sx={{
-                  width: "12px",
-                  height: "12px",
-                  backgroundColor: "#00E096",
-                  borderRadius: "2px"
-                }} />
-                <Typography sx={{
-                  fontSize: "12px",
-                  color: "#7B91B0",
-                  fontFamily: "'Poppins', sans-serif"
-                }}>
-                  Offline: {selectedData.offlineSales}k
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        )}
       </CardContent>
     </Card>
   )

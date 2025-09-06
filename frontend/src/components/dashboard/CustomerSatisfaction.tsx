@@ -1,7 +1,6 @@
 "use client"
 import { Card, CardContent, Typography, Box } from "@mui/material"
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts"
-import { useState } from "react"
 
 const data = [
   { month: "Jan", lastMonth: 3.2, thisMonth: 3.8 },
@@ -19,13 +18,6 @@ const data = [
 ]
 
 export default function CustomerSatisfaction() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const [selectedData, setSelectedData] = useState<any>(null)
-
-  const handleAreaClick = (data: any, index: number) => {
-    setActiveIndex(index)
-    setSelectedData(data)
-  }
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -101,7 +93,6 @@ export default function CustomerSatisfaction() {
             <AreaChart 
               data={data} 
               margin={{ top: 10, right: 30, left: 0, bottom: 40 }}
-              onClick={handleAreaClick}
             >
               <defs>
                 <linearGradient id="colorLastMonth" x1="0" y1="0" x2="0" y2="1">
@@ -124,7 +115,6 @@ export default function CustomerSatisfaction() {
                 fillOpacity={1}
                 fill="url(#colorLastMonth)"
                 strokeWidth={2.5}
-                cursor="pointer"
               />
               <Area
                 type="monotone"
@@ -133,7 +123,6 @@ export default function CustomerSatisfaction() {
                 fillOpacity={1}
                 fill="url(#colorThisMonth)"
                 strokeWidth={2.5}
-                cursor="pointer"
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -210,58 +199,6 @@ export default function CustomerSatisfaction() {
           </Box>
         </Box>
 
-        {/* Selected Data Display */}
-        {selectedData && (
-          <Box sx={{
-            mt: 2,
-            p: 2,
-            backgroundColor: "#F8F9FA",
-            borderRadius: "12px",
-            border: "1px solid #E2E8F0"
-          }}>
-            <Typography sx={{
-              fontSize: "14px",
-              fontWeight: 600,
-              color: "#05004E",
-              fontFamily: "'Poppins', sans-serif",
-              mb: 1
-            }}>
-              Selected: {selectedData.month}
-            </Typography>
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Box sx={{
-                  width: "12px",
-                  height: "3px",
-                  backgroundColor: "#4079ED",
-                  borderRadius: "2px"
-                }} />
-                <Typography sx={{
-                  fontSize: "12px",
-                  color: "#7B91B0",
-                  fontFamily: "'Poppins', sans-serif"
-                }}>
-                  Last Month: {selectedData.lastMonth}
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Box sx={{
-                  width: "12px",
-                  height: "3px",
-                  backgroundColor: "#10B981",
-                  borderRadius: "2px"
-                }} />
-                <Typography sx={{
-                  fontSize: "12px",
-                  color: "#7B91B0",
-                  fontFamily: "'Poppins', sans-serif"
-                }}>
-                  This Month: {selectedData.thisMonth}
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        )}
       </CardContent>
     </Card>
   )

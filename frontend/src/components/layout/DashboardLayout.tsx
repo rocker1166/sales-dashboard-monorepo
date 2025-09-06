@@ -92,8 +92,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           ml: { md: `${drawerWidth}px` },
           backgroundColor: "white",
           color: "text.primary",
-          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-          borderBottom: "1px solid #E2E8F0",
+          boxShadow: "none",
+          borderBottom: "none",
           borderRadius: 0,
         }}
       >
@@ -345,6 +345,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               boxSizing: "border-box",
               width: drawerWidth,
               borderRadius: 0,
+              border: "none",
+              boxShadow: "none",
+              backgroundColor: "white",
             },
           }}
         >
@@ -358,6 +361,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               boxSizing: "border-box",
               width: drawerWidth,
               borderRadius: 0,
+              border: "none",
+              boxShadow: "none",
+              backgroundColor: "white",
             },
           }}
           open
