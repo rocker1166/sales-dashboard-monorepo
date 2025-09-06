@@ -31,14 +31,25 @@ const drawerWidth = 345
 
 const Search = styled("div")(({ theme }) => ({
   display: "flex",
-  width: "513px",
-  height: "60px",
-  padding: "2px 32px 2px 24px",
   alignItems: "center",
   gap: "8px",
   flexShrink: 0,
   borderRadius: "16px",
   background: "#F9FAFB",
+  width: "513px",
+  height: "60px",
+  padding: "2px 32px 2px 24px",
+  [theme.breakpoints.down("sm")]: {
+    display: "none", // Hide search on very small screens
+  },
+  [theme.breakpoints.down("md")]: {
+    width: "300px",
+    height: "50px",
+    padding: "2px 24px 2px 16px",
+  },
+  [theme.breakpoints.down("lg")]: {
+    width: "400px",
+  },
 }))
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -100,8 +111,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <Toolbar
           sx={{
             justifyContent: "space-between",
-            height: 120,
-            padding: "35px 40px",
+            height: { xs: 80, sm: 100, md: 120 },
+            padding: { xs: "20px 16px", sm: "25px 24px", md: "35px 40px" },
+            flexWrap: { xs: "wrap", md: "nowrap" },
+            gap: { xs: 1, md: 0 }
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -122,7 +135,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 fontWeight: 600,
                 color: "#151D48",
                 fontFamily: "Poppins",
-                fontSize: "36px",
+                fontSize: { xs: "24px", sm: "28px", md: "36px" },
                 lineHeight: "140%",
               }}
             >
@@ -130,7 +143,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Box sx={{ 
+            display: "flex", 
+            alignItems: "center", 
+            gap: { xs: 1, sm: 1.5, md: 2 },
+            flexWrap: { xs: "wrap", sm: "nowrap" },
+            justifyContent: { xs: "flex-end", md: "flex-start" }
+          }}>
             {/* Search */}
             <Search>
               <SearchIconWrapper>
@@ -143,7 +162,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </Search>
 
             {/* Language / Country Selector */}
-            <FormControl size="small">
+            <FormControl size="small" sx={{ display: { xs: "none", sm: "block" } }}>
               <Select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
@@ -184,13 +203,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   );
                 }}
                 sx={{
-                  minWidth: 100,
+                  minWidth: { xs: 80, sm: 90, md: 100 },
                   display: "inline-flex",
-                  height: "60px",
-                  padding: "0 16px",
+                  height: { xs: "40px", sm: "50px", md: "60px" },
+                  padding: { xs: "0 8px", sm: "0 12px", md: "0 16px" },
                   justifyContent: "space-between",
                   alignItems: "center",
-                  gap: "16px",
+                  gap: { xs: "8px", sm: "12px", md: "16px" },
                   flexShrink: 0,
                   border: "none",
                   boxShadow: "none",
@@ -243,7 +262,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </FormControl>
 
             {/* Notifications */}
-            <IconButton color="inherit" sx={{ width: 48, height: 48, flexShrink: 0, borderRadius: '8px', background: '#FFFAF1', position: 'relative' }}>
+            <IconButton color="inherit" sx={{ 
+              width: { xs: 36, sm: 42, md: 48 }, 
+              height: { xs: 36, sm: 42, md: 48 }, 
+              flexShrink: 0, 
+              borderRadius: '8px', 
+              background: '#FFFAF1', 
+              position: 'relative' 
+            }}>
               <Box sx={{ position: 'absolute', top: 8, right: 12 }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="7" height="7" viewBox="0 0 7 7" fill="none">
                   <path d="M3.33333 6.66667C5.17428 6.66667 6.66667 5.17428 6.66667 3.33333C6.66667 1.49238 5.17428 0 3.33333 0C1.49238 0 0 1.49238 0 3.33333C0 5.17428 1.49238 6.66667 3.33333 6.66667Z" fill="#EB5757"/>
@@ -273,17 +299,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 2,
+                gap: { xs: 1, sm: 1.5, md: 2 },
                 cursor: "pointer",
                 borderRadius: "8px",
-                padding: "8px 16px",
+                padding: { xs: "4px 8px", sm: "6px 12px", md: "8px 16px" },
               }}
             >
               <Avatar 
                 src="/per.png" 
                 sx={{ 
-                  width: 60, 
-                  height: 60, 
+                  width: { xs: 40, sm: 50, md: 60 }, 
+                  height: { xs: 40, sm: 50, md: 60 }, 
                   flexShrink: 0,
                   borderRadius: "8px" 
                 }} 
@@ -291,10 +317,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           
               <Box sx={{ 
-                display: "flex", 
+                display: { xs: "none", sm: "flex" }, 
                 alignItems: "center", 
-                width: 146,
-                height: 48,
+                width: { sm: 120, md: 146 },
+                height: { sm: 40, md: 48 },
                 position: "relative",
                 opacity: 1
               }}>
@@ -302,7 +328,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Typography sx={{ 
                     color: "#151D48",
                     fontFamily: "Poppins",
-                    fontSize: "16px",
+                    fontSize: { sm: "14px", md: "16px" },
                     fontWeight: 500,
                     lineHeight: "24px"
                   }}>
@@ -311,15 +337,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Typography sx={{ 
                     color: "#737791",
                     fontFamily: "Poppins",
-                    fontSize: "14px",
+                    fontSize: { sm: "12px", md: "14px" },
                     fontWeight: 400,
                     lineHeight: "20px"
                   }}>
                     Admin
                   </Typography>
                 </Box>
-                <Box sx={{ display: "flex", alignItems: "center", ml: 2 }}>
-                  <ArrowDownIcon sx={{ fontSize: 16, color: "#737791" }} />
+                <Box sx={{ display: "flex", alignItems: "center", ml: { sm: 1, md: 2 } }}>
+                  <ArrowDownIcon sx={{ fontSize: { sm: 14, md: 16 }, color: "#737791" }} />
                 </Box>
               </Box>
             </Box>
@@ -378,8 +404,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         sx={{
           flexGrow: 1,
           width: { md: `calc(100% - ${drawerWidth}px)` },
-          mt: "120px",
-          minHeight: "calc(100vh - 120px)",
+          mt: { xs: "80px", sm: "100px", md: "120px" },
+          minHeight: { xs: "calc(100vh - 80px)", sm: "calc(100vh - 100px)", md: "calc(100vh - 120px)" },
           backgroundColor: "#F8FAFC",
         }}
       >
