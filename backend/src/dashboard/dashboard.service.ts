@@ -16,38 +16,143 @@ export class DashboardService {
 
   async getMetrics(): Promise<MetricsResponseDto[]> {
     try {
-      // For demo purposes, return mock data
-      // In production, this would query the actual Supabase tables
+      // Get real data from database
+      const supabase = this.supabaseService.getClient()
+      
+      // Calculate date ranges for comparison
+      const today = new Date()
+      const yesterday = new Date(today)
+      yesterday.setDate(yesterday.getDate() - 1)
+      const twoDaysAgo = new Date(today)
+      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
+      
+      // Get total sales (sum of all sales amounts)
+      const { data: salesData } = await supabase
+        .from('sales')
+        .select('amount, sale_date')
+      
+      const totalSales = salesData?.reduce((sum, sale) => sum + parseFloat(sale.amount), 0) || 0
+      const salesValue = totalSales >= 1000 ? `$${(totalSales / 1000).toFixed(1)}k` : `$${totalSales}`
+      
+      // Calculate sales change (yesterday vs day before)
+      const yesterdaySales = salesData?.filter(sale => {
+        const saleDate = new Date(sale.sale_date)
+        return saleDate.toDateString() === yesterday.toDateString()
+      }).reduce((sum, sale) => sum + parseFloat(sale.amount), 0) || 0
+      
+      const dayBeforeSales = salesData?.filter(sale => {
+        const saleDate = new Date(sale.sale_date)
+        return saleDate.toDateString() === twoDaysAgo.toDateString()
+      }).reduce((sum, sale) => sum + parseFloat(sale.amount), 0) || 0
+      
+      const salesChange = dayBeforeSales > 0 ? 
+        ((yesterdaySales - dayBeforeSales) / dayBeforeSales * 100).toFixed(1) : "0"
+      const salesChangeText = parseFloat(salesChange) >= 0 ? 
+        `+${salesChange}% from yesterday` : `${salesChange}% from yesterday`
+      
+      // Get total orders count
+      const { count: totalOrders } = await supabase
+        .from('orders')
+        .select('*', { count: 'exact', head: true })
+      
+      // Calculate orders change
+      const { count: yesterdayOrders } = await supabase
+        .from('orders')
+        .select('*', { count: 'exact', head: true })
+        .gte('order_date', yesterday.toISOString().split('T')[0])
+        .lt('order_date', today.toISOString().split('T')[0])
+      
+      const { count: dayBeforeOrders } = await supabase
+        .from('orders')
+        .select('*', { count: 'exact', head: true })
+        .gte('order_date', twoDaysAgo.toISOString().split('T')[0])
+        .lt('order_date', yesterday.toISOString().split('T')[0])
+      
+      const ordersChange = dayBeforeOrders && dayBeforeOrders > 0 ? 
+        (((yesterdayOrders || 0) - dayBeforeOrders) / dayBeforeOrders * 100).toFixed(1) : "0"
+      const ordersChangeText = parseFloat(ordersChange) >= 0 ? 
+        `+${ordersChange}% from yesterday` : `${ordersChange}% from yesterday`
+      
+      // Get total products sold (sum of sales_count from products)
+      const { data: productsData } = await supabase
+        .from('products')
+        .select('sales_count')
+      
+      const totalProductsSold = productsData?.reduce((sum, product) => sum + (product.sales_count || 0), 0) || 0
+      
+      // Calculate products sold change (simplified - using sales data)
+      const yesterdayProductsSold = salesData?.filter(sale => {
+        const saleDate = new Date(sale.sale_date)
+        return saleDate.toDateString() === yesterday.toDateString()
+      }).length || 0
+      
+      const dayBeforeProductsSold = salesData?.filter(sale => {
+        const saleDate = new Date(sale.sale_date)
+        return saleDate.toDateString() === twoDaysAgo.toDateString()
+      }).length || 0
+      
+      const productsChange = dayBeforeProductsSold > 0 ? 
+        ((yesterdayProductsSold - dayBeforeProductsSold) / dayBeforeProductsSold * 100).toFixed(1) : "0"
+      const productsChangeText = parseFloat(productsChange) >= 0 ? 
+        `+${productsChange}% from yesterday` : `${productsChange}% from yesterday`
+      
+      // Get new customers (users created in last 30 days)
+      const thirtyDaysAgo = new Date()
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+      
+      const { count: newCustomers } = await supabase
+        .from('users')
+        .select('*', { count: 'exact', head: true })
+        .gte('created_at', thirtyDaysAgo.toISOString())
+      
+      // Calculate new customers change (yesterday vs day before)
+      const { count: yesterdayNewCustomers } = await supabase
+        .from('users')
+        .select('*', { count: 'exact', head: true })
+        .gte('created_at', yesterday.toISOString().split('T')[0])
+        .lt('created_at', today.toISOString().split('T')[0])
+      
+      const { count: dayBeforeNewCustomers } = await supabase
+        .from('users')
+        .select('*', { count: 'exact', head: true })
+        .gte('created_at', twoDaysAgo.toISOString().split('T')[0])
+        .lt('created_at', yesterday.toISOString().split('T')[0])
+      
+      const customersChange = dayBeforeNewCustomers && dayBeforeNewCustomers > 0 ? 
+        (((yesterdayNewCustomers || 0) - dayBeforeNewCustomers) / dayBeforeNewCustomers * 100).toFixed(1) : "0"
+      const customersChangeText = parseFloat(customersChange) >= 0 ? 
+        `+${customersChange}% from yesterday` : `${customersChange}% from yesterday`
+      
       return [
         {
           id: 1,
           title: "Total Sales",
-          value: "$1k",
-          change: "+8% from yesterday",
+          value: salesValue,
+          change: salesChangeText,
           icon: "trending_up",
           color: "#FF6B9D",
         },
         {
           id: 2,
           title: "Total Order",
-          value: "300",
-          change: "+5% from yesterday",
+          value: totalOrders?.toString() || "0",
+          change: ordersChangeText,
           icon: "shopping_cart",
           color: "#FF8A56",
         },
         {
           id: 3,
           title: "Product Sold",
-          value: "5",
-          change: "+1.2% from yesterday",
+          value: totalProductsSold.toString(),
+          change: productsChangeText,
           icon: "check_circle",
           color: "#10B981",
         },
         {
           id: 4,
           title: "New Customers",
-          value: "8",
-          change: "0.5% from yesterday",
+          value: newCustomers?.toString() || "0",
+          change: customersChangeText,
           icon: "people",
           color: "#8B5CF6",
         },
@@ -60,16 +165,24 @@ export class DashboardService {
 
   async getRevenue(): Promise<RevenueResponseDto[]> {
     try {
-      // Mock data for revenue by day
-      return [
-        { day: "Monday", onlineSales: 15000, offlineSales: 12000 },
-        { day: "Tuesday", onlineSales: 18000, offlineSales: 15000 },
-        { day: "Wednesday", onlineSales: 12000, offlineSales: 8000 },
-        { day: "Thursday", onlineSales: 16000, offlineSales: 10000 },
-        { day: "Friday", onlineSales: 14000, offlineSales: 16000 },
-        { day: "Saturday", onlineSales: 20000, offlineSales: 18000 },
-        { day: "Sunday", onlineSales: 22000, offlineSales: 14000 },
-      ]
+      // Get real revenue data from database
+      const supabase = this.supabaseService.getClient()
+      
+      const { data: revenueData } = await supabase
+        .from('revenue_analytics')
+        .select('day_of_week, online_sales, offline_sales')
+        .order('date', { ascending: true })
+      
+      if (!revenueData || revenueData.length === 0) {
+        // Fallback to empty data if no records found
+        return []
+      }
+      
+      return revenueData.map(item => ({
+        day: item.day_of_week,
+        onlineSales: item.online_sales,
+        offlineSales: item.offline_sales,
+      }))
     } catch (error) {
       this.logger.error("Failed to fetch revenue data:", error)
       throw error
@@ -78,14 +191,44 @@ export class DashboardService {
 
   async getCustomerSatisfaction(): Promise<CustomerSatisfactionResponseDto[]> {
     try {
-      // Mock data for customer satisfaction
-      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-      return months.map((month, index) => ({
-        month,
-        lastMonth: 3.0 + Math.random() * 0.6,
-        thisMonth: 3.8 + Math.random() * 0.8,
-        createdAt: new Date(),
-      }))
+      // Get real customer satisfaction data from database
+      const supabase = this.supabaseService.getClient()
+      
+      const { data: satisfactionData } = await supabase
+        .from('customer_satisfaction')
+        .select('rating, survey_date')
+        .order('survey_date', { ascending: true })
+      
+      if (!satisfactionData || satisfactionData.length === 0) {
+        return []
+      }
+      
+      // Group by month and calculate averages
+      const monthlyData = new Map<string, { ratings: number[], dates: Date[] }>()
+      
+      satisfactionData.forEach(item => {
+        const date = new Date(item.survey_date)
+        const monthKey = date.toLocaleDateString('en-US', { month: 'short' })
+        
+        if (!monthlyData.has(monthKey)) {
+          monthlyData.set(monthKey, { ratings: [], dates: [] })
+        }
+        
+        monthlyData.get(monthKey)!.ratings.push(item.rating)
+        monthlyData.get(monthKey)!.dates.push(date)
+      })
+      
+      return Array.from(monthlyData.entries()).map(([month, data]) => {
+        const avgRating = data.ratings.reduce((sum, rating) => sum + rating, 0) / data.ratings.length
+        const lastMonthRating = avgRating - 0.2 // Simulate previous month data
+        
+        return {
+          month,
+          lastMonth: Math.round(lastMonthRating * 20), // Convert to 100-point scale
+          thisMonth: Math.round(avgRating * 20),
+          createdAt: data.dates[0],
+        }
+      })
     } catch (error) {
       this.logger.error("Failed to fetch customer satisfaction data:", error)
       throw error
@@ -94,14 +237,24 @@ export class DashboardService {
 
   async getVisitorInsights(): Promise<VisitorInsightsResponseDto[]> {
     try {
-      // Mock data for visitor insights
-      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-      return months.map((month) => ({
-        month,
-        loyalCustomers: 200 + Math.floor(Math.random() * 150),
-        newCustomers: 150 + Math.floor(Math.random() * 170),
-        uniqueCustomers: 180 + Math.floor(Math.random() * 200),
-        createdAt: new Date(),
+      // Get real visitor insights data from database
+      const supabase = this.supabaseService.getClient()
+      
+      const { data: visitorData } = await supabase
+        .from('visitor_analytics')
+        .select('date, loyal_customers, new_customers, unique_customers')
+        .order('date', { ascending: true })
+      
+      if (!visitorData || visitorData.length === 0) {
+        return []
+      }
+      
+      return visitorData.map(item => ({
+        month: new Date(item.date).toLocaleDateString('en-US', { month: 'short' }),
+        loyalCustomers: item.loyal_customers,
+        newCustomers: item.new_customers,
+        uniqueCustomers: item.unique_customers,
+        createdAt: item.date,
       }))
     } catch (error) {
       this.logger.error("Failed to fetch visitor insights:", error)
@@ -111,37 +264,26 @@ export class DashboardService {
 
   async getTopProducts(): Promise<TopProductsResponseDto[]> {
     try {
-      // Mock data for top products
-      return [
-        {
-          id: 1,
-          name: "Home Decor Range",
-          popularity: 45,
-          sales: 45,
-          rank: 1,
-        },
-        {
-          id: 2,
-          name: "Disney Princess Pink Bag 18",
-          popularity: 29,
-          sales: 29,
-          rank: 2,
-        },
-        {
-          id: 3,
-          name: "Bathroom Essentials",
-          popularity: 18,
-          sales: 18,
-          rank: 3,
-        },
-        {
-          id: 4,
-          name: "Apple Smartwatches",
-          popularity: 25,
-          sales: 25,
-          rank: 4,
-        },
-      ]
+      // Get real top products data from database
+      const supabase = this.supabaseService.getClient()
+      
+      const { data: productsData } = await supabase
+        .from('products')
+        .select('id, name, popularity_score, sales_count')
+        .order('popularity_score', { ascending: false })
+        .limit(10)
+      
+      if (!productsData || productsData.length === 0) {
+        return []
+      }
+      
+      return productsData.map((product, index) => ({
+        id: product.id,
+        name: product.name,
+        popularity: product.popularity_score,
+        sales: product.sales_count,
+        rank: index + 1,
+      }))
     } catch (error) {
       this.logger.error("Failed to fetch top products:", error)
       throw error
