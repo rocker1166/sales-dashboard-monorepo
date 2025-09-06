@@ -1,6 +1,7 @@
 "use client"
 import { Card, CardContent, Typography, Box, Divider } from "@mui/material"
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts"
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, Cell } from "recharts"
+import { useState } from "react"
 
 const data = [
   { month: "Jan", volume: 85, services: 65 },
@@ -13,6 +14,56 @@ const data = [
 ]
 
 export default function VolumeVsService() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [selectedData, setSelectedData] = useState<any>(null)
+
+  const handleBarClick = (data: any, index: number) => {
+    setActiveIndex(index)
+    setSelectedData(data)
+  }
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <Box sx={{
+          backgroundColor: "white",
+          border: "1px solid #E2E8F0",
+          borderRadius: "8px",
+          padding: "12px",
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)"
+        }}>
+          <Typography sx={{ 
+            fontSize: "14px", 
+            fontWeight: 600, 
+            color: "#05004E",
+            fontFamily: "'Poppins', sans-serif",
+            mb: 1
+          }}>
+            {label}
+          </Typography>
+          {payload.map((entry: any, index: number) => (
+            <Box key={index} sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
+              <Box sx={{
+                width: "12px",
+                height: "12px",
+                backgroundColor: entry.color,
+                borderRadius: "6px"
+              }} />
+              <Typography sx={{ 
+                fontSize: "12px", 
+                color: "#7B91B0",
+                fontFamily: "'Poppins', sans-serif"
+              }}>
+                {entry.name}: {entry.value}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      )
+    }
+    return null
+  }
+
   return (
     <Card sx={{ 
       height: "351px", 
@@ -43,11 +94,50 @@ export default function VolumeVsService() {
         {/* Chart */}
         <Box sx={{ flex: 1, minHeight: 0, mb: { xs: "12px", sm: "16px", md: "20px" } }}>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+            <BarChart 
+              data={data} 
+              margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+              onClick={handleBarClick}
+            >
               <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#7B91B0", fontFamily: "'Poppins', sans-serif" }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#7B91B0", fontFamily: "'Poppins', sans-serif" }} />
-              <Bar dataKey="volume" fill="#0095FF" radius={[2, 2, 0, 0]} />
-              <Bar dataKey="services" fill="#00E096" radius={[2, 2, 0, 0]} />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar 
+                dataKey="volume" 
+                fill="#0095FF" 
+                radius={[2, 2, 0, 0]}
+                cursor="pointer"
+                onClick={(data, index) => handleBarClick(data, index)}
+              >
+                {data.map((entry, index) => (
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={activeIndex === index ? "#007ACC" : "#0095FF"}
+                    style={{ 
+                      filter: activeIndex === index ? "brightness(0.8)" : "none",
+                      transition: "all 0.2s ease"
+                    }}
+                  />
+                ))}
+              </Bar>
+              <Bar 
+                dataKey="services" 
+                fill="#00E096" 
+                radius={[2, 2, 0, 0]}
+                cursor="pointer"
+                onClick={(data, index) => handleBarClick(data, index)}
+              >
+                {data.map((entry, index) => (
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={activeIndex === index ? "#00B87A" : "#00E096"}
+                    style={{ 
+                      filter: activeIndex === index ? "brightness(0.8)" : "none",
+                      transition: "all 0.2s ease"
+                    }}
+                  />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </Box>
@@ -147,6 +237,59 @@ export default function VolumeVsService() {
             </Box>
           </Box>
         </Box>
+
+        {/* Selected Data Display */}
+        {selectedData && (
+          <Box sx={{
+            mt: 2,
+            p: 2,
+            backgroundColor: "#F8F9FA",
+            borderRadius: "12px",
+            border: "1px solid #E2E8F0"
+          }}>
+            <Typography sx={{
+              fontSize: "14px",
+              fontWeight: 600,
+              color: "#05004E",
+              fontFamily: "'Poppins', sans-serif",
+              mb: 1
+            }}>
+              Selected: {selectedData.month}
+            </Typography>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box sx={{
+                  width: "12px",
+                  height: "12px",
+                  backgroundColor: "#0095FF",
+                  borderRadius: "6px"
+                }} />
+                <Typography sx={{
+                  fontSize: "12px",
+                  color: "#7B91B0",
+                  fontFamily: "'Poppins', sans-serif"
+                }}>
+                  Volume: {selectedData.volume}
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box sx={{
+                  width: "12px",
+                  height: "12px",
+                  backgroundColor: "#00E096",
+                  borderRadius: "6px"
+                }} />
+                <Typography sx={{
+                  fontSize: "12px",
+                  color: "#7B91B0",
+                  fontFamily: "'Poppins', sans-serif"
+                }}>
+                  Services: {selectedData.services}
+                </Typography>
+              </Box>
+            </Box>
+        </Box>
+        )}
       </CardContent>
     </Card>
   )

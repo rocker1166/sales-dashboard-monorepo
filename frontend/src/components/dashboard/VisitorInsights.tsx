@@ -1,6 +1,7 @@
 "use client"
 import { Card, CardContent, Typography, Box } from "@mui/material"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from "recharts"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Tooltip, Dot } from "recharts"
+import { useState } from "react"
 
 const data = [
   { month: "Jan", loyalCustomers: 180, newCustomers: 130, uniqueCustomers: 220 },
@@ -18,6 +19,78 @@ const data = [
 ]
 
 export default function VisitorInsights() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [selectedData, setSelectedData] = useState<any>(null)
+
+  const handleDotClick = (data: any, index: number) => {
+    setActiveIndex(index)
+    setSelectedData(data)
+  }
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <Box sx={{
+          backgroundColor: "white",
+          border: "1px solid #E2E8F0",
+          borderRadius: "8px",
+          padding: "12px",
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)"
+        }}>
+          <Typography sx={{ 
+            fontSize: "14px", 
+            fontWeight: 600, 
+            color: "#05004E",
+            fontFamily: "'Poppins', sans-serif",
+            mb: 1
+          }}>
+            {label}
+          </Typography>
+          {payload.map((entry: any, index: number) => (
+            <Box key={index} sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
+              <Box sx={{
+                width: "12px",
+                height: "12px",
+                backgroundColor: entry.color,
+                borderRadius: "50%"
+              }} />
+              <Typography sx={{ 
+                fontSize: "12px", 
+                color: "#7B91B0",
+                fontFamily: "'Poppins', sans-serif"
+              }}>
+                {entry.name}: {entry.value}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      )
+    }
+    return null
+  }
+
+  const CustomDot = (props: any) => {
+    const { cx, cy, payload, index } = props
+    const isActive = activeIndex === index
+    
+    return (
+      <Dot
+        cx={cx}
+        cy={cy}
+        r={isActive ? 6 : 4}
+        fill={props.fill}
+        stroke={isActive ? "#fff" : props.fill}
+        strokeWidth={isActive ? 2 : 0}
+        style={{
+          cursor: "pointer",
+          transition: "all 0.2s ease",
+          filter: isActive ? "drop-shadow(0 2px 4px rgba(0,0,0,0.2))" : "none"
+        }}
+        onClick={() => handleDotClick(payload, index)}
+      />
+    )
+  }
+
   return (
     <Card sx={{ 
       height: "348px", 
@@ -88,6 +161,7 @@ export default function VisitorInsights() {
                 }}
                 domain={[0, 'dataMax + 50']}
               />
+              <Tooltip content={<CustomTooltip />} />
               <Legend 
                 wrapperStyle={{ 
                   fontSize: "12px",
@@ -103,12 +177,7 @@ export default function VisitorInsights() {
                 stroke="#4079ED"
                 strokeWidth={2.5}
                 name="Loyal Customers"
-                dot={{ 
-                  fill: "#4079ED", 
-                  strokeWidth: 2, 
-                  r: 4,
-                  stroke: "#FFFFFF"
-                }}
+                dot={<CustomDot fill="#4079ED" />}
                 activeDot={{ 
                   r: 6, 
                   stroke: "#4079ED", 
@@ -122,12 +191,7 @@ export default function VisitorInsights() {
                 stroke="#FA5A7D"
                 strokeWidth={2.5}
                 name="New Customers"
-                dot={{ 
-                  fill: "#FA5A7D", 
-                  strokeWidth: 2, 
-                  r: 4,
-                  stroke: "#FFFFFF"
-                }}
+                dot={<CustomDot fill="#FA5A7D" />}
                 activeDot={{ 
                   r: 6, 
                   stroke: "#FA5A7D", 
@@ -141,12 +205,7 @@ export default function VisitorInsights() {
                 stroke="#10B981"
                 strokeWidth={2.5}
                 name="Unique Customers"
-                dot={{ 
-                  fill: "#10B981", 
-                  strokeWidth: 2, 
-                  r: 4,
-                  stroke: "#FFFFFF"
-                }}
+                dot={<CustomDot fill="#10B981" />}
                 activeDot={{ 
                   r: 6, 
                   stroke: "#10B981", 
@@ -157,6 +216,74 @@ export default function VisitorInsights() {
             </LineChart>
           </ResponsiveContainer>
         </Box>
+
+        {/* Selected Data Display */}
+        {selectedData && (
+          <Box sx={{
+            mt: 2,
+            p: 2,
+            backgroundColor: "#F8F9FA",
+            borderRadius: "12px",
+            border: "1px solid #E2E8F0"
+          }}>
+            <Typography sx={{
+              fontSize: "14px",
+              fontWeight: 600,
+              color: "#05004E",
+              fontFamily: "'Poppins', sans-serif",
+              mb: 1
+            }}>
+              Selected: {selectedData.month}
+            </Typography>
+            <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box sx={{
+                  width: "12px",
+                  height: "12px",
+                  backgroundColor: "#4079ED",
+                  borderRadius: "50%"
+                }} />
+                <Typography sx={{
+                  fontSize: "12px",
+                  color: "#7B91B0",
+                  fontFamily: "'Poppins', sans-serif"
+                }}>
+                  Loyal: {selectedData.loyalCustomers}
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box sx={{
+                  width: "12px",
+                  height: "12px",
+                  backgroundColor: "#FA5A7D",
+                  borderRadius: "50%"
+                }} />
+                <Typography sx={{
+                  fontSize: "12px",
+                  color: "#7B91B0",
+                  fontFamily: "'Poppins', sans-serif"
+                }}>
+                  New: {selectedData.newCustomers}
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box sx={{
+                  width: "12px",
+                  height: "12px",
+                  backgroundColor: "#10B981",
+                  borderRadius: "50%"
+                }} />
+                <Typography sx={{
+                  fontSize: "12px",
+                  color: "#7B91B0",
+                  fontFamily: "'Poppins', sans-serif"
+                }}>
+                  Unique: {selectedData.uniqueCustomers}
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        )}
       </CardContent>
     </Card>
   )

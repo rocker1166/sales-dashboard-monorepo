@@ -33,38 +33,68 @@ export default function DashboardContent() {
 
       {/* Middle Section */}
       <Box sx={{ marginBottom: "24px" }}>
-        <Grid container spacing={3}>
-          {/* Total Revenue - Left */}
-          <Grid item xs={12} lg={4}>
+        <Box sx={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
+          {/* Total Revenue - 645px at 1920px, responsive for other screens */}
+          <Box sx={{ 
+            width: { 
+              xs: "100%", 
+              sm: "100%", 
+              md: "60%", 
+              lg: "55%", 
+              xl: "645px" 
+            } 
+          }}>
             <TotalRevenue />
-          </Grid>
-          {/* Customer Satisfaction - Center */}
-          <Grid item xs={12} lg={4}>
-            <CustomerSatisfaction />
-          </Grid>
-          {/* Target vs Reality - Right */}
-          <Grid item xs={12} lg={4}>
-            <TargetVsReality />
-          </Grid>
-        </Grid>
+          </Box>
+          {/* Customer Satisfaction & Target vs Reality - Equal remaining space */}
+          <Box sx={{ 
+            display: "flex", 
+            gap: "24px", 
+            flex: 1,
+            minWidth: 0,
+            flexDirection: { xs: "column", md: "row" }
+          }}>
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <CustomerSatisfaction />
+            </Box>
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <TargetVsReality />
+            </Box>
+          </Box>
+        </Box>
       </Box>
 
       {/* Bottom Section */}
       <Box>
-        <Grid container spacing={3}>
-          {/* Top Products - Left */}
-          <Grid item xs={12} lg={4}>
+        <Box sx={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
+          {/* Top Products - 645px at 1920px, responsive for other screens */}
+          <Box sx={{ 
+            width: { 
+              xs: "100%", 
+              sm: "100%", 
+              md: "60%", 
+              lg: "55%", 
+              xl: "645px" 
+            } 
+          }}>
             <TopProducts />
-          </Grid>
-          {/* Sales Mapping - Center */}
-          <Grid item xs={12} lg={4}>
-            <SalesMapping />
-          </Grid>
-          {/* Volume vs Service - Right */}
-          <Grid item xs={12} lg={4}>
-            <VolumeVsService />
-          </Grid>
-        </Grid>
+          </Box>
+          {/* Sales Mapping & Volume vs Service - Equal remaining space */}
+          <Box sx={{ 
+            display: "flex", 
+            gap: "24px", 
+            flex: 1,
+            minWidth: 0,
+            flexDirection: { xs: "column", md: "row" }
+          }}>
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <SalesMapping />
+            </Box>
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <VolumeVsService />
+            </Box>
+          </Box>
+        </Box>
       </Box>
     </Box>
   )
