@@ -6,9 +6,9 @@ export default function SalesMapping() {
     <Card sx={{ 
       height: "351px", 
       borderRadius: "20px", 
-      border: "1px solid #E2E8F0",
+      border: "1px solid #F8F9FA",
       backgroundColor: "white",
-      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)"
+      boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)"
     }}>
       <CardContent sx={{ 
         p: "24px", 
