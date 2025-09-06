@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
-    "build": "next build --no-lint 2>&1 | findstr /v \"useContext\" | findstr /v \"styled-jsx\" | findstr /v \"Error occurred prerendering\" || echo 'Build completed successfully'",
+    "build": "next build --no-lint",
     "start": "next start -p 3000",
     "lint": "next lint",
     "type-check": "tsc --noEmit"

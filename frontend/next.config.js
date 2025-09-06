@@ -29,10 +29,11 @@ const nextConfig = {
   },
   trailingSlash: false,
   compiler: {
-    styledJsx: false,
+    // Remove styledJsx as it's not a valid compiler option
+    // styledJsx is handled by Next.js automatically
   },
   // Disable all static optimization
-  optimizeFonts: false,
+  optimizeFonts: false, // Prevent Google Fonts network requests during build
   swcMinify: false,
   // Disable error page generation
   generateEtags: false,

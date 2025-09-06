@@ -1,12 +1,12 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+// import { Inter } from "next/font/google" // Disabled to prevent network errors during build
 import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
 import { theme } from "@/theme"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] })
+// const inter = Inter({ subsets: ["latin"] }) // Disabled to prevent network errors during build
 
 export const metadata: Metadata = {
   title: "Dabang - Sales Dashboard",
@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className="font-sans"> {/* Use system fonts instead of Google Fonts */}
         <ThemeProvider theme={theme}>
           <CssBaseline />
           {children}
