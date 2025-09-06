@@ -167,7 +167,6 @@ export default function CustomerSatisfaction() {
                 </linearGradient>
               </defs>
               <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#7B91B0", fontFamily: "'Poppins', sans-serif" }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#7B91B0", fontFamily: "'Poppins', sans-serif" }} />
               <CartesianGrid strokeDasharray="1 1" stroke="#F1F5F9" strokeWidth={1} vertical={false} />
               <Tooltip content={<CustomTooltip />} />
               <Area
