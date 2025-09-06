@@ -1,43 +1,4 @@
-const { spawn, execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
 
-console.log('Starting Next.js build process...');
-
-// First, build the Next.js app
-const buildProcess = spawn('next', ['build'], {
-  stdio: 'inherit',
-  shell: true,
-  env: {
-    ...process.env,
-    NODE_ENV: 'production',
-    NEXT_TELEMETRY_DISABLED: '1'
-  }
-});
-
-buildProcess.on('close', (code) => {
-  if (code === 0) {
-    console.log('✅ Build completed successfully!');
-    process.exit(0);
-  } else {
-    console.log('⚠️  Build completed with warnings (styled-jsx errors on error pages only)');
-    
-    // Try to create a simple static export manually
-    try {
-      console.log('Creating static export...');
-      
-      // Create out directory if it doesn't exist
-      if (!fs.existsSync('out')) {
-        fs.mkdirSync('out');
-      }
-      
-      // Copy the built files to out directory
-      if (fs.existsSync('.next/static')) {
-        fs.cpSync('.next/static', 'out/_next/static', { recursive: true });
-      }
-      
-      // Create a comprehensive index.html with the dashboard
-      const indexHtml = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -240,21 +201,4 @@ buildProcess.on('close', (code) => {
         </div>
     </div>
 </body>
-</html>`;
-      
-      fs.writeFileSync('out/index.html', indexHtml);
-      
-      console.log('✅ Static export created successfully!');
-    } catch (error) {
-      console.log('⚠️  Static export failed, but build artifacts are available');
-    }
-    
-    console.log('🚀 Application is ready for deployment!');
-    process.exit(0); // Force exit with success for deployment platforms
-  }
-});
-
-buildProcess.on('error', (error) => {
-  console.error('Build process error:', error);
-  process.exit(1);
-});
+</html>
