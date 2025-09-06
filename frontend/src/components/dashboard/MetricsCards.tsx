@@ -42,38 +42,43 @@ export default function MetricsCards() {
     <Box sx={{ 
       backgroundColor: "white",
       borderRadius: "20px",
-      padding: "24px",
-      border: "1px solid #E2E8F0",
-      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-      height: "348px",
+      padding: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" },
+      border: "1px solid #F8F9FA",
+      boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+      minHeight: { xs: "280px", sm: "320px", md: "348px" },
       display: "flex",
-      flexDirection: "column"
+      flexDirection: "column",
+      width: "100%",
+      position: "relative"
     }}>
       {/* Header */}
       <Box sx={{ 
         display: "flex", 
         justifyContent: "space-between", 
-        alignItems: "flex-start", 
-        mb: 3
+        alignItems: { xs: "flex-start", sm: "center" },
+        flexDirection: { xs: "column", sm: "row" },
+        gap: { xs: "12px", sm: "0" },
+        mb: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }
       }}>
         <Box>
           <Typography 
-            variant="h5" 
             sx={{ 
-              fontWeight: 700, 
-              mb: 0.5,
-              color: "#1E293B",
-              fontSize: "20px",
+              fontWeight: 600, 
+              mb: "4px",
+              color: "#05004E",
+              fontSize: { xs: "16px", sm: "18px", md: "20px" },
+              lineHeight: { xs: "24px", sm: "28px", md: "32px" },
               fontFamily: "'Poppins', sans-serif"
             }}
           >
             Today's Sales
           </Typography>
           <Typography 
-            variant="body2" 
             sx={{ 
-              color: "#64748B",
-              fontSize: "14px",
+              color: "#737791",
+              fontSize: { xs: "12px", sm: "14px", md: "16px" },
+              lineHeight: { xs: "18px", sm: "24px", md: "30px" },
+              fontWeight: 400,
               fontFamily: "'Poppins', sans-serif"
             }}
           >
@@ -82,19 +87,23 @@ export default function MetricsCards() {
         </Box>
         <Button
           variant="outlined"
-          startIcon={<FileDownload sx={{ fontSize: 16 }} />}
+          startIcon={<FileDownload sx={{ fontSize: { xs: "10px", sm: "12px", md: "13.33px" } }} />}
           sx={{
-            borderColor: "#D1D5DB",
-            color: "#6B7280",
+            borderColor: "#C3D3E2",
+            color: "#0F3659",
             textTransform: "none",
             fontWeight: 500,
-            fontSize: "14px",
+            fontSize: { xs: "10px", sm: "12px", md: "14px" },
+            lineHeight: { xs: "16px", sm: "18px", md: "20px" },
             borderRadius: "8px",
-            padding: "8px 16px",
+            padding: { xs: "4px 8px", sm: "6px 12px", md: "8px 16px" },
+            height: { xs: "28px", sm: "32px", md: "40px" },
+            width: { xs: "60px", sm: "80px", md: "100px" },
             fontFamily: "'Poppins', sans-serif",
+            alignSelf: { xs: "flex-start", sm: "auto" },
             "&:hover": {
-              borderColor: "#9CA3AF",
-              backgroundColor: "#F9FAFB"
+              borderColor: "#A8B8C8",
+              backgroundColor: "#F8F9FA"
             }
           }}
         >
@@ -102,105 +111,130 @@ export default function MetricsCards() {
         </Button>
       </Box>
 
-      {/* Metrics Grid */}
-      <Box sx={{ flex: 1 }}>
-        <Grid container spacing={2}>
-          {metrics.map((metric, index) => (
-            <Grid item xs={6} lg={3} key={index}>
-              <Card
+      {/* Metrics Grid - Always within container */}
+      <Box sx={{ 
+        display: "grid",
+        gridTemplateColumns: { 
+          xs: "1fr", 
+          sm: "repeat(2, 1fr)",
+          lg: "repeat(4, 1fr)"
+        },
+        gap: { 
+          xs: "8px", 
+          sm: "12px", 
+          md: "16px", 
+          lg: "20px", 
+          xl: "32px" 
+        },
+        width: "100%",
+        flex: 1,
+        alignItems: "start"
+      }}>
+        {metrics.map((metric, index) => (
+          <Card
+            key={index}
+            sx={{
+              backgroundColor: metric.bgColor,
+              borderRadius: { xs: "12px", sm: "14px", md: "16px" },
+              border: "none",
+              boxShadow: "none",
+              width: "100%",
+              height: { 
+                xs: "120px", 
+                sm: "140px", 
+                md: "170px", 
+                lg: "180px", 
+                xl: "184px" 
+              },
+              position: "relative",
+              display: "flex",
+              flexDirection: "column"
+            }}
+          >
+            <CardContent sx={{ 
+              p: 0,
+              "&:last-child": { pb: 0 },
+              height: "100%",
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}>
+              {/* Icon Circle */}
+              <Box
                 sx={{
-                  backgroundColor: metric.bgColor,
-                  borderRadius: "16px",
-                  border: "none",
-                  boxShadow: "none",
-                  width: "180px",
-                  height: "184px",
-                  position: "relative"
+                  position: "absolute",
+                  width: { xs: "24px", sm: "28px", md: "32px", lg: "36px", xl: "40px" },
+                  height: { xs: "24px", sm: "28px", md: "32px", lg: "36px", xl: "40px" },
+                  left: { xs: "12px", sm: "14px", md: "16px", lg: "18px", xl: "20px" },
+                  top: { xs: "12px", sm: "14px", md: "16px", lg: "18px", xl: "20px" },
+                  borderRadius: "50%",
+                  backgroundColor: metric.iconColor,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
                 }}
               >
-                <CardContent sx={{ 
-                  p: 0,
-                  "&:last-child": { pb: 0 },
-                  height: "100%",
-                  position: "relative"
-                }}>
-                  {/* Icon Circle */}
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      width: "40px",
-                      height: "40px",
-                      left: "20px",
-                      top: "20px",
-                      borderRadius: "50%",
-                      backgroundColor: metric.iconColor,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "white",
-                    }}
-                  >
-                    {metric.icon}
-                  </Box>
+                {metric.icon}
+              </Box>
 
-                  {/* Value */}
-                  <Typography 
-                    sx={{ 
-                      position: "absolute",
-                      left: "20px",
-                      top: "76px",
-                      fontFamily: "'Poppins', sans-serif",
-                      fontStyle: "normal",
-                      fontWeight: 600,
-                      fontSize: "24px",
-                      lineHeight: "32px",
-                      color: "#151D48",
-                      margin: 0
-                    }}
-                  >
-                    {metric.value}
-                  </Typography>
+              {/* Value */}
+              <Typography 
+                sx={{ 
+                  position: "absolute",
+                  left: { xs: "12px", sm: "14px", md: "16px", lg: "18px", xl: "20px" },
+                  top: { xs: "44px", sm: "52px", md: "64px", lg: "72px", xl: "76px" },
+                  fontFamily: "'Poppins', sans-serif",
+                  fontStyle: "normal",
+                  fontWeight: 600,
+                  fontSize: { xs: "16px", sm: "18px", md: "20px", lg: "22px", xl: "24px" },
+                  lineHeight: { xs: "22px", sm: "24px", md: "26px", lg: "28px", xl: "32px" },
+                  color: "#151D48",
+                  margin: 0
+                }}
+              >
+                {metric.value}
+              </Typography>
 
-                  {/* Title */}
-                  <Typography 
-                    sx={{ 
-                      position: "absolute",
-                      left: "20px",
-                      top: "116px",
-                      fontFamily: "'Poppins', sans-serif",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      fontSize: "16px",
-                      lineHeight: "24px",
-                      color: "#425166",
-                      margin: 0
-                    }}
-                  >
-                    {metric.title}
-                  </Typography>
+              {/* Title */}
+              <Typography 
+                sx={{ 
+                  position: "absolute",
+                  left: { xs: "12px", sm: "14px", md: "16px", lg: "18px", xl: "20px" },
+                  top: { xs: "68px", sm: "78px", md: "96px", lg: "104px", xl: "116px" },
+                  fontFamily: "'Poppins', sans-serif",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  fontSize: { xs: "10px", sm: "12px", md: "14px", lg: "15px", xl: "16px" },
+                  lineHeight: { xs: "14px", sm: "16px", md: "18px", lg: "20px", xl: "24px" },
+                  color: "#425166",
+                  margin: 0
+                }}
+              >
+                {metric.title}
+              </Typography>
 
-                  {/* Change Percentage */}
-                  <Typography 
-                    sx={{ 
-                      position: "absolute",
-                      left: "20px",
-                      top: "148px",
-                      fontFamily: "'Poppins', sans-serif",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      fontSize: "12px",
-                      lineHeight: "16px",
-                      color: "#4079ED",
-                      margin: 0
-                    }}
-                  >
-                    {metric.change}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+              {/* Change Percentage */}
+              <Typography 
+                sx={{ 
+                  position: "absolute",
+                  left: { xs: "12px", sm: "14px", md: "16px", lg: "18px", xl: "20px" },
+                  top: { xs: "84px", sm: "96px", md: "120px", lg: "132px", xl: "148px" },
+                  fontFamily: "'Poppins', sans-serif",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  fontSize: { xs: "8px", sm: "9px", md: "10px", lg: "11px", xl: "12px" },
+                  lineHeight: { xs: "10px", sm: "12px", md: "14px", lg: "15px", xl: "16px" },
+                  color: "#4079ED",
+                  margin: 0
+                }}
+              >
+                {metric.change}
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
       </Box>
     </Box>
   )

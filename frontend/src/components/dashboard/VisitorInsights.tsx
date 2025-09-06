@@ -3,18 +3,18 @@ import { Card, CardContent, Typography, Box } from "@mui/material"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from "recharts"
 
 const data = [
-  { month: "Jan", loyalCustomers: 200, newCustomers: 150, uniqueCustomers: 180 },
-  { month: "Feb", loyalCustomers: 180, newCustomers: 200, uniqueCustomers: 220 },
-  { month: "Mar", loyalCustomers: 220, newCustomers: 180, uniqueCustomers: 200 },
-  { month: "Apr", loyalCustomers: 200, newCustomers: 220, uniqueCustomers: 250 },
-  { month: "May", loyalCustomers: 250, newCustomers: 200, uniqueCustomers: 280 },
-  { month: "Jun", loyalCustomers: 280, newCustomers: 250, uniqueCustomers: 300 },
-  { month: "Jul", loyalCustomers: 320, newCustomers: 280, uniqueCustomers: 350 },
-  { month: "Aug", loyalCustomers: 300, newCustomers: 320, uniqueCustomers: 330 },
-  { month: "Sep", loyalCustomers: 350, newCustomers: 300, uniqueCustomers: 380 },
-  { month: "Oct", loyalCustomers: 330, newCustomers: 350, uniqueCustomers: 360 },
-  { month: "Nov", loyalCustomers: 280, newCustomers: 330, uniqueCustomers: 320 },
-  { month: "Dec", loyalCustomers: 250, newCustomers: 280, uniqueCustomers: 290 },
+  { month: "Jan", loyalCustomers: 180, newCustomers: 130, uniqueCustomers: 220 },
+  { month: "Feb", loyalCustomers: 200, newCustomers: 150, uniqueCustomers: 260 },
+  { month: "Mar", loyalCustomers: 170, newCustomers: 140, uniqueCustomers: 240 },
+  { month: "Apr", loyalCustomers: 190, newCustomers: 160, uniqueCustomers: 300 },
+  { month: "May", loyalCustomers: 210, newCustomers: 150, uniqueCustomers: 340 },
+  { month: "Jun", loyalCustomers: 220, newCustomers: 170, uniqueCustomers: 370 },
+  { month: "Jul", loyalCustomers: 240, newCustomers: 190, uniqueCustomers: 420 },
+  { month: "Aug", loyalCustomers: 230, newCustomers: 200, uniqueCustomers: 400 },
+  { month: "Sep", loyalCustomers: 250, newCustomers: 180, uniqueCustomers: 440 },
+  { month: "Oct", loyalCustomers: 235, newCustomers: 210, uniqueCustomers: 420 },
+  { month: "Nov", loyalCustomers: 215, newCustomers: 195, uniqueCustomers: 380 },
+  { month: "Dec", loyalCustomers: 195, newCustomers: 175, uniqueCustomers: 360 },
 ]
 
 export default function VisitorInsights() {
@@ -22,58 +22,137 @@ export default function VisitorInsights() {
     <Card sx={{ 
       height: "348px", 
       borderRadius: "20px", 
-      border: "1px solid #E2E8F0",
+      border: "1px solid #F8F9FA",
       backgroundColor: "white",
-      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)"
+      boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+      width: "100%"
     }}>
       <CardContent sx={{ 
-        p: "24px", 
+        p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
         height: "100%",
         display: "flex",
         flexDirection: "column"
       }}>
         <Typography 
-          variant="h6" 
           sx={{ 
-            fontWeight: 700, 
-            mb: 3,
-            color: "#1E293B",
-            fontSize: "20px"
+            fontWeight: 600, 
+            mb: { xs: "16px", sm: "20px", md: "24px" },
+            color: "#05004E",
+            fontSize: { xs: "16px", sm: "18px", md: "20px" },
+            lineHeight: { xs: "24px", sm: "28px", md: "32px" },
+            fontFamily: "'Poppins', sans-serif"
           }}
         >
           Visitor Insights
         </Typography>
 
-        <Box sx={{ flex: 1, minHeight: 0 }}>
+        <Box sx={{ 
+          flex: 1, 
+          minHeight: 0,
+          width: "100%"
+        }}>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#64748B" }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#64748B" }} />
-              <Legend wrapperStyle={{ fontSize: "12px", paddingTop: "20px" }} />
+            <LineChart 
+              data={data} 
+              margin={{ 
+                top: 20, 
+                right: 30, 
+                left: 20, 
+                bottom: 20 
+              }}
+            >
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke="#F1F5F9" 
+                strokeWidth={1}
+                vertical={false}
+              />
+              <XAxis 
+                dataKey="month" 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ 
+                  fontSize: 12, 
+                  fill: "#737791",
+                  fontFamily: "'Poppins', sans-serif"
+                }}
+                interval={0}
+              />
+              <YAxis 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ 
+                  fontSize: 12, 
+                  fill: "#737791",
+                  fontFamily: "'Poppins', sans-serif"
+                }}
+                domain={[0, 'dataMax + 50']}
+              />
+              <Legend 
+                wrapperStyle={{ 
+                  fontSize: "12px",
+                  paddingTop: "20px",
+                  fontFamily: "'Poppins', sans-serif"
+                }}
+                iconType="circle"
+                iconSize={8}
+              />
               <Line
                 type="monotone"
                 dataKey="loyalCustomers"
-                stroke="#8B5CF6"
-                strokeWidth={3}
+                stroke="#4079ED"
+                strokeWidth={2.5}
                 name="Loyal Customers"
-                dot={{ fill: "#8B5CF6", strokeWidth: 2, r: 4 }}
+                dot={{ 
+                  fill: "#4079ED", 
+                  strokeWidth: 2, 
+                  r: 4,
+                  stroke: "#FFFFFF"
+                }}
+                activeDot={{ 
+                  r: 6, 
+                  stroke: "#4079ED", 
+                  strokeWidth: 2,
+                  fill: "#FFFFFF"
+                }}
               />
               <Line
                 type="monotone"
                 dataKey="newCustomers"
-                stroke="#EF4444"
-                strokeWidth={3}
+                stroke="#FA5A7D"
+                strokeWidth={2.5}
                 name="New Customers"
-                dot={{ fill: "#EF4444", strokeWidth: 2, r: 4 }}
+                dot={{ 
+                  fill: "#FA5A7D", 
+                  strokeWidth: 2, 
+                  r: 4,
+                  stroke: "#FFFFFF"
+                }}
+                activeDot={{ 
+                  r: 6, 
+                  stroke: "#FA5A7D", 
+                  strokeWidth: 2,
+                  fill: "#FFFFFF"
+                }}
               />
               <Line
                 type="monotone"
                 dataKey="uniqueCustomers"
                 stroke="#10B981"
-                strokeWidth={3}
+                strokeWidth={2.5}
                 name="Unique Customers"
-                dot={{ fill: "#10B981", strokeWidth: 2, r: 4 }}
+                dot={{ 
+                  fill: "#10B981", 
+                  strokeWidth: 2, 
+                  r: 4,
+                  stroke: "#FFFFFF"
+                }}
+                activeDot={{ 
+                  r: 6, 
+                  stroke: "#10B981", 
+                  strokeWidth: 2,
+                  fill: "#FFFFFF"
+                }}
               />
             </LineChart>
           </ResponsiveContainer>
