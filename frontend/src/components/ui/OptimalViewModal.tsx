@@ -70,7 +70,7 @@ export default function OptimalViewModal() {
         type: "suboptimal",
         icon: "⚠️",
         title: "Screen Resolution Notice",
-        description: "For the optimal dashboard experience, we recommend using either a 1920px+ desktop screen or a mobile device. The dashboard is fully mobile responsive for optimal viewing on all devices.",
+        description: "For the optimal dashboard experience, use 1920+ resolution as per Figma design.",
         color: "#F59E0B",
         bgColor: "#FEF3E6"
       }
