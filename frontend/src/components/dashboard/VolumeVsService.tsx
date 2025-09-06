@@ -1,5 +1,5 @@
 "use client"
-import { Card, CardContent, Typography, Box } from "@mui/material"
+import { Card, CardContent, Typography, Box, Divider } from "@mui/material"
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts"
 
 const data = [
@@ -16,10 +16,10 @@ export default function VolumeVsService() {
   return (
     <Card sx={{ 
       height: "351px", 
-      borderRadius: "20px", 
-      border: "1px solid #E2E8F0",
+      borderRadius: "26px", 
+      border: "1px solid #EDF2F6",
       backgroundColor: "white",
-      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)"
+      boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)"
     }}>
       <CardContent sx={{ 
         p: "24px", 
@@ -28,87 +28,124 @@ export default function VolumeVsService() {
         flexDirection: "column"
       }}>
         <Typography 
-          variant="h6" 
           sx={{ 
-            fontWeight: 700, 
-            mb: 3,
-            color: "#1E293B",
-            fontSize: "20px",
+            fontWeight: 600, 
+            mb: { xs: "12px", sm: "16px", md: "20px" },
+            color: "#05004E",
+            fontSize: { xs: "16px", sm: "18px", md: "20px" },
+            lineHeight: { xs: "24px", sm: "28px", md: "32px" },
             fontFamily: "'Poppins', sans-serif"
           }}
         >
           Volume vs Service Level
         </Typography>
 
-        {/* Stats */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        {/* Chart */}
+        <Box sx={{ flex: 1, minHeight: 0, mb: { xs: "12px", sm: "16px", md: "20px" } }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#7B91B0", fontFamily: "'Poppins', sans-serif" }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#7B91B0", fontFamily: "'Poppins', sans-serif" }} />
+              <Bar dataKey="volume" fill="#0095FF" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="services" fill="#00E096" radius={[2, 2, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </Box>
+
+        {/* Divider */}
+        <Divider sx={{ 
+          borderColor: "#EDF2F6", 
+          mb: { xs: "12px", sm: "16px", md: "20px" } 
+        }} />
+
+        {/* Stats with vertical divider */}
+        <Box sx={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          alignItems: "center",
+          position: "relative",
+          gap: "20px"
+        }}>
+          {/* Volume Section */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <Box
               sx={{
-                width: 12,
-                height: 12,
-                borderRadius: "50%",
-                backgroundColor: "#3B82F6",
+                width: "12px",
+                height: "12px",
+                borderRadius: "6px",
+                backgroundColor: "#0095FF",
               }}
             />
             <Box>
               <Typography 
-                variant="body2" 
-                color="text.secondary"
-                sx={{ fontFamily: "'Poppins', sans-serif" }}
+                sx={{ 
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  color: "#96A5B8",
+                  fontFamily: "'Poppins', sans-serif",
+                  lineHeight: "30px"
+                }}
               >
                 Volume
               </Typography>
               <Typography 
-                variant="h6" 
                 sx={{ 
-                  fontWeight: 700,
-                  fontFamily: "'Poppins', sans-serif"
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: "#222B45",
+                  fontFamily: "'Poppins', sans-serif",
+                  lineHeight: "20px"
                 }}
               >
                 1,135
               </Typography>
             </Box>
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+
+          {/* Vertical Divider */}
+          <Box
+            sx={{
+              width: "1px",
+              height: "40px",
+              backgroundColor: "#BDC9D3"
+            }}
+          />
+
+          {/* Services Section */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <Box
               sx={{
-                width: 12,
-                height: 12,
-                borderRadius: "50%",
-                backgroundColor: "#10B981",
+                width: "12px",
+                height: "12px",
+                borderRadius: "6px",
+                backgroundColor: "#00E096",
               }}
             />
             <Box>
               <Typography 
-                variant="body2" 
-                color="text.secondary"
-                sx={{ fontFamily: "'Poppins', sans-serif" }}
+                sx={{ 
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  color: "#96A5B8",
+                  fontFamily: "'Poppins', sans-serif",
+                  lineHeight: "30px"
+                }}
               >
                 Services
               </Typography>
               <Typography 
-                variant="h6" 
                 sx={{ 
-                  fontWeight: 700,
-                  fontFamily: "'Poppins', sans-serif"
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: "#222B45",
+                  fontFamily: "'Poppins', sans-serif",
+                  lineHeight: "20px"
                 }}
               >
                 635
               </Typography>
             </Box>
           </Box>
-        </Box>
-
-        <Box sx={{ flex: 1, minHeight: 0 }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#64748B" }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#64748B" }} />
-              <Bar dataKey="volume" fill="#3B82F6" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="services" fill="#10B981" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
         </Box>
       </CardContent>
     </Card>

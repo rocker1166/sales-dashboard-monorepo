@@ -2,10 +2,10 @@
 import { Card, CardContent, Typography, Box, LinearProgress } from "@mui/material"
 
 const products = [
-  { id: "01", name: "Home Decor Range", popularity: 45, sales: "45%", color: "#3B82F6" },
-  { id: "02", name: "Disney Princess Pink Bag 18", popularity: 29, sales: "29%", color: "#10B981" },
-  { id: "03", name: "Bathroom Essentials", popularity: 18, sales: "18%", color: "#8B5CF6" },
-  { id: "04", name: "Apple Smartwatches", popularity: 25, sales: "25%", color: "#F59E0B" },
+  { id: "01", name: "Home Decor Range", popularity: 45, sales: "45%", color: "#3B82F6", bgColor: "#F0F9FF" },
+  { id: "02", name: "Disney Princess Pink Bag 18", popularity: 29, sales: "29%", color: "#10B981", bgColor: "#F0FDF4" },
+  { id: "03", name: "Bathroom Essentials", popularity: 18, sales: "18%", color: "#8B5CF6", bgColor: "#F3E8FF" },
+  { id: "04", name: "Apple Smartwatches", popularity: 25, sales: "25%", color: "#F59E0B", bgColor: "#FEF3E6" },
 ]
 
 export default function TopProducts() {
@@ -13,23 +13,24 @@ export default function TopProducts() {
     <Card sx={{ 
       height: "351px", 
       borderRadius: "20px", 
-      border: "1px solid #E2E8F0",
+      border: "1px solid #F8F9FA",
       backgroundColor: "white",
-      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)"
+      boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+      width: "100%"
     }}>
       <CardContent sx={{ 
-        p: "24px", 
+        p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
         height: "100%",
         display: "flex",
         flexDirection: "column"
       }}>
         <Typography 
-          variant="h6" 
           sx={{ 
-            fontWeight: 700, 
-            mb: 3,
-            color: "#1E293B",
-            fontSize: "20px",
+            fontWeight: 600, 
+            mb: { xs: "12px", sm: "16px", md: "20px" },
+            color: "#05004E",
+            fontSize: { xs: "16px", sm: "18px", md: "20px" },
+            lineHeight: { xs: "24px", sm: "28px", md: "32px" },
             fontFamily: "'Poppins', sans-serif"
           }}
         >
@@ -37,47 +38,56 @@ export default function TopProducts() {
         </Typography>
 
         {/* Table Header */}
-        <Box sx={{ display: "flex", mb: 2, pb: 1, borderBottom: "1px solid #E2E8F0" }}>
+        <Box sx={{ 
+          display: "flex", 
+          mb: { xs: "12px", sm: "16px", md: "20px" }, 
+          pb: { xs: "8px", sm: "12px" }, 
+          borderBottom: "1px solid #F1F5F9" 
+        }}>
           <Typography 
-            variant="body2" 
-            color="text.secondary" 
             sx={{ 
               width: "10%", 
               fontWeight: 600,
-              fontFamily: "'Poppins', sans-serif"
+              fontSize: { xs: "11px", sm: "12px" },
+              color: "#737791",
+              fontFamily: "'Poppins', sans-serif",
+              lineHeight: "16px"
             }}
           >
             #
           </Typography>
           <Typography 
-            variant="body2" 
-            color="text.secondary" 
             sx={{ 
               width: "50%", 
               fontWeight: 600,
-              fontFamily: "'Poppins', sans-serif"
+              fontSize: { xs: "11px", sm: "12px" },
+              color: "#737791",
+              fontFamily: "'Poppins', sans-serif",
+              lineHeight: "16px"
             }}
           >
             Name
           </Typography>
           <Typography 
-            variant="body2" 
-            color="text.secondary" 
             sx={{ 
               width: "25%", 
               fontWeight: 600,
-              fontFamily: "'Poppins', sans-serif"
+              fontSize: { xs: "11px", sm: "12px" },
+              color: "#737791",
+              fontFamily: "'Poppins', sans-serif",
+              lineHeight: "16px"
             }}
           >
             Popularity
           </Typography>
           <Typography 
-            variant="body2" 
-            color="text.secondary" 
             sx={{ 
               width: "15%", 
               fontWeight: 600,
-              fontFamily: "'Poppins', sans-serif"
+              fontSize: { xs: "11px", sm: "12px" },
+              color: "#737791",
+              fontFamily: "'Poppins', sans-serif",
+              lineHeight: "16px"
             }}
           >
             Sales
@@ -86,39 +96,48 @@ export default function TopProducts() {
 
         {/* Product List */}
         <Box sx={{ flex: 1 }}>
-          {products.map((product) => (
-            <Box key={product.id} sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+          {products.map((product, index) => (
+            <Box key={product.id} sx={{ 
+              display: "flex", 
+              alignItems: "center", 
+              mb: { xs: "12px", sm: "16px", md: "20px" },
+              py: { xs: "4px", sm: "6px" }
+            }}>
               <Typography 
-                variant="body2" 
                 sx={{ 
                   width: "10%", 
                   fontWeight: 600,
-                  fontFamily: "'Poppins', sans-serif"
+                  fontSize: { xs: "12px", sm: "14px" },
+                  color: "#05004E",
+                  fontFamily: "'Poppins', sans-serif",
+                  lineHeight: "20px"
                 }}
               >
                 {product.id}
               </Typography>
               <Typography 
-                variant="body2" 
                 sx={{ 
                   width: "50%", 
                   fontWeight: 500,
-                  fontFamily: "'Poppins', sans-serif"
+                  fontSize: { xs: "12px", sm: "14px" },
+                  color: "#05004E",
+                  fontFamily: "'Poppins', sans-serif",
+                  lineHeight: "20px"
                 }}
               >
                 {product.name}
               </Typography>
-              <Box sx={{ width: "25%", pr: 1 }}>
+              <Box sx={{ width: "25%", pr: { xs: "8px", sm: "12px" } }}>
                 <LinearProgress
                   variant="determinate"
                   value={product.popularity}
                   sx={{
-                    height: 6,
-                    borderRadius: 3,
-                    backgroundColor: "#E2E8F0",
+                    height: { xs: 4, sm: 6 },
+                    borderRadius: { xs: 2, sm: 3 },
+                    backgroundColor: "#F1F5F9",
                     "& .MuiLinearProgress-bar": {
                       backgroundColor: product.color,
-                      borderRadius: 3,
+                      borderRadius: { xs: 2, sm: 3 },
                     },
                   }}
                 />
@@ -126,15 +145,26 @@ export default function TopProducts() {
               <Box
                 sx={{
                   width: "15%",
-                  backgroundColor: product.color,
-                  color: "white",
-                  borderRadius: 1,
-                  px: 1,
-                  py: 0.5,
+                  backgroundColor: product.bgColor,
+                  color: product.color,
+                  border: `1px solid ${product.color}`,
+                  borderRadius: { xs: "4px", sm: "6px" },
+                  px: { xs: "6px", sm: "8px" },
+                  py: { xs: "2px", sm: "4px" },
                   textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  minHeight: { xs: "20px", sm: "24px" }
                 }}
               >
-                <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                <Typography sx={{ 
+                  fontWeight: 600,
+                  fontSize: { xs: "10px", sm: "12px" },
+                  fontFamily: "'Poppins', sans-serif",
+                  lineHeight: "16px",
+                  color: product.color
+                }}>
                   {product.sales}
                 </Typography>
               </Box>

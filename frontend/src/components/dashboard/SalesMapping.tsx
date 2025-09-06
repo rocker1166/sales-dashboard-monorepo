@@ -43,12 +43,12 @@ export default function SalesMapping() {
           {/* World Map Placeholder */}
           <Box
             component="img"
-            src="/world-map-with-colored-regions.jpg"
+            src="/ind.jpg"
             alt="World Sales Map"
             sx={{
-              maxWidth: "100%",
-              maxHeight: "100%",
-              objectFit: "contain",
+              width: "750px",
+              height: "259px",
+              objectFit: "cover",
             }}
           />
 
