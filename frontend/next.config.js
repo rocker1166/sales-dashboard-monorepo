@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
@@ -12,39 +13,30 @@ const nextConfig = {
   env: {
     CUSTOM_KEY: "my-value",
   },
-  // Disable static generation for error pages to avoid styled-jsx issues
   experimental: {
-    serverComponentsExternalPackages: ["styled-jsx"],
     disableOptimizedLoading: true,
-    optimizeCss: false
+    optimizeCss: false,
   },
-  // Skip static generation for error pages
   generateBuildId: async () => {
-    return 'build-' + Date.now()
-  },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
-      },
-    ]
+    return "build-" + Date.now();
   },
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
-    }
-    return config
+    };
+    return config;
   },
-  // Handle styled-jsx errors during build
-  onBuildError: (err) => {
-    if (err.message.includes('useContext') && err.message.includes('styled-jsx')) {
-      console.warn('Styled-jsx error during build, continuing...')
-      return
-    }
-    throw err
+  trailingSlash: false,
+  compiler: {
+    styledJsx: false,
   },
-}
+  // Disable all static optimization
+  optimizeFonts: false,
+  swcMinify: false,
+  // Disable error page generation
+  generateEtags: false,
+  poweredByHeader: false,
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
