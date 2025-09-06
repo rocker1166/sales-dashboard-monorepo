@@ -36,6 +36,11 @@ buildProcess.on('close', (code) => {
         fs.cpSync('.next/static', 'out/_next/static', { recursive: true });
       }
       
+      // Also copy public files to out directory
+      if (fs.existsSync('public')) {
+        fs.cpSync('public', 'out', { recursive: true });
+      }
+      
       // Create a comprehensive index.html with the dashboard
       const indexHtml = `
 <!DOCTYPE html>
