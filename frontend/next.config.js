@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
@@ -12,13 +13,16 @@ const nextConfig = {
   env: {
     CUSTOM_KEY: "my-value",
   },
-  // Disable static generation for error pages to avoid styled-jsx issues
-  experimental: {
-    serverComponentsExternalPackages: ["styled-jsx"],
-    disableOptimizedLoading: true,
-    optimizeCss: false
+  // Output configuration for Vercel deployment
+  output: 'standalone',
+  // Disable styled-jsx completely
+  compiler: {
+    styledJsx: false,
   },
-  // Skip static generation for error pages
+  experimental: {
+    serverComponentsExternalPackages: ['styled-jsx'],
+  },
+  // Generate unique build ID
   generateBuildId: async () => {
     return 'build-' + Date.now()
   },
@@ -36,14 +40,6 @@ const nextConfig = {
       fs: false,
     }
     return config
-  },
-  // Handle styled-jsx errors during build
-  onBuildError: (err) => {
-    if (err.message.includes('useContext') && err.message.includes('styled-jsx')) {
-      console.warn('Styled-jsx error during build, continuing...')
-      return
-    }
-    throw err
   },
 }
 
