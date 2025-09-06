@@ -1,6 +1,6 @@
 "use client"
 import { Card, CardContent, Typography, Box } from "@mui/material"
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from "recharts"
 
 const data = [
   { month: "Jan", reality: 8.2, target: 12.1 },
@@ -17,98 +17,223 @@ export default function TargetVsReality() {
     <Card sx={{ 
       height: "351px", 
       borderRadius: "20px", 
-      border: "1px solid #E2E8F0",
+      border: "1px solid #F8F9FA",
       backgroundColor: "white",
-      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)"
+      boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+      width: "100%"
     }}>
       <CardContent sx={{ 
-        p: "24px", 
+        p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
         height: "100%",
         display: "flex",
         flexDirection: "column"
       }}>
         <Typography 
-          variant="h6" 
           sx={{ 
-            fontWeight: 700, 
-            mb: 3,
-            color: "#1E293B",
-            fontSize: "20px",
+            fontWeight: 600, 
+            mb: { xs: "12px", sm: "16px", md: "20px" },
+            color: "#05004E",
+            fontSize: { xs: "16px", sm: "18px", md: "20px" },
+            lineHeight: { xs: "24px", sm: "28px", md: "32px" },
             fontFamily: "'Poppins', sans-serif"
           }}
         >
           Target vs Reality
         </Typography>
 
-        {/* Stats */}
-        <Box sx={{ mb: 3 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-            <Box
-              sx={{
-                width: 12,
-                height: 12,
-                borderRadius: "50%",
-                backgroundColor: "#10B981",
-              }}
-            />
-            <Box>
-              <Typography 
-                variant="body2" 
-                color="text.secondary"
-                sx={{ fontFamily: "'Poppins', sans-serif" }}
-              >
-                Reality Sales
-              </Typography>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  fontWeight: 700,
-                  fontFamily: "'Poppins', sans-serif"
-                }}
-              >
-                8,823
-              </Typography>
-            </Box>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Box
-              sx={{
-                width: 12,
-                height: 12,
-                borderRadius: "50%",
-                backgroundColor: "#F59E0B",
-              }}
-            />
-            <Box>
-              <Typography 
-                variant="body2" 
-                color="text.secondary"
-                sx={{ fontFamily: "'Poppins', sans-serif" }}
-              >
-                Target Sales
-              </Typography>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  fontWeight: 700,
-                  fontFamily: "'Poppins', sans-serif"
-                }}
-              >
-                12,122
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Box sx={{ flex: 1, minHeight: 0 }}>
+        <Box sx={{ 
+          flex: 1, 
+          minHeight: 0,
+          width: "100%",
+          height: "180px"
+        }}>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#64748B" }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#64748B" }} />
-              <Bar dataKey="reality" fill="#10B981" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="target" fill="#F59E0B" radius={[4, 4, 0, 0]} />
+            <BarChart 
+              data={data} 
+              margin={{ 
+                top: 5, 
+                right: 5, 
+                bottom: 5 
+              }}
+            >
+              <CartesianGrid 
+                strokeDasharray="1 1" 
+                stroke="#F1F5F9" 
+                strokeWidth={1}
+                vertical={false}
+              />
+              <XAxis 
+                dataKey="month" 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ 
+                  fontSize: 12, 
+                  fill: "#7B91B0",
+                  fontFamily: "'Poppins', sans-serif"
+                }}
+                interval={0}
+              />
+              <YAxis 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ 
+                  fontSize: 12, 
+                  fill: "#7B91B0",
+                  fontFamily: "'Poppins', sans-serif"
+                }}
+                domain={[0, 15]}
+                ticks={[0, 3, 6, 9, 12, 15]}
+                tickFormatter={(value) => `${value}k`}
+              />
+              <Bar 
+                dataKey="reality" 
+                fill="#10B981" 
+                radius={[2, 2, 0, 0]}
+                maxBarSize={50}
+              />
+              <Bar 
+                dataKey="target" 
+                fill="#F59E0B" 
+                radius={[2, 2, 0, 0]}
+                maxBarSize={50}
+              />
             </BarChart>
           </ResponsiveContainer>
+        </Box>
+
+        {/* Sales sections positioned below chart like Figma */}
+        <Box sx={{ 
+          display: "flex", 
+          flexDirection: "column",
+          gap: "16px",
+          mt: "20px",
+          alignItems: "flex-start"
+        }}>
+          {/* Reality Sales */}
+          <Box sx={{ 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "space-between",
+            width: "235px",
+            height: "36px"
+          }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Box sx={{ 
+                width: "36px", 
+                height: "36px", 
+                borderRadius: "6px",
+                backgroundColor: "#E2FFF3",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}>
+                <Box sx={{ 
+                  width: "18px", 
+                  height: "18px", 
+                  backgroundColor: "#27AE60",
+                  borderRadius: "3px"
+                }} />
+              </Box>
+              <Box>
+                <Typography 
+                  sx={{ 
+                    fontSize: "12px",
+                    color: "#151D48",
+                    fontFamily: "'Poppins', sans-serif",
+                    fontWeight: 600,
+                    lineHeight: "16px"
+                  }}
+                >
+                  Reality Sales
+                </Typography>
+                <Typography 
+                  sx={{ 
+                    fontSize: "10px",
+                    color: "#737791",
+                    fontFamily: "'Poppins', sans-serif",
+                    fontWeight: 400,
+                    lineHeight: "16px"
+                  }}
+                >
+                  Global
+                </Typography>
+              </Box>
+            </Box>
+            <Typography 
+              sx={{ 
+                fontSize: "14px",
+                color: "#27AE60",
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 500,
+                lineHeight: "20px"
+              }}
+            >
+              8.823
+            </Typography>
+          </Box>
+
+          {/* Target Sales */}
+          <Box sx={{ 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "space-between",
+            width: "235px",
+            height: "36px"
+          }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Box sx={{ 
+                width: "36px", 
+                height: "36px", 
+                borderRadius: "6px",
+                backgroundColor: "#FEF3E6",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}>
+                <Box sx={{ 
+                  width: "18px", 
+                  height: "18px", 
+                  backgroundColor: "#F59E0B",
+                  borderRadius: "3px"
+                }} />
+              </Box>
+              <Box>
+                <Typography 
+                  sx={{ 
+                    fontSize: "12px",
+                    color: "#151D48",
+                    fontFamily: "'Poppins', sans-serif",
+                    fontWeight: 600,
+                    lineHeight: "16px"
+                  }}
+                >
+                  Target Sales
+                </Typography>
+                <Typography 
+                  sx={{ 
+                    fontSize: "10px",
+                    color: "#737791",
+                    fontFamily: "'Poppins', sans-serif",
+                    fontWeight: 400,
+                    lineHeight: "16px"
+                  }}
+                >
+                  Commercial
+                </Typography>
+              </Box>
+            </Box>
+            <Typography 
+              sx={{ 
+                fontSize: "14px",
+                color: "#F59E0B",
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 500,
+                lineHeight: "20px"
+              }}
+            >
+              12.122
+            </Typography>
+          </Box>
         </Box>
       </CardContent>
     </Card>

@@ -32,87 +32,42 @@ export default function CustomerSatisfaction() {
         display: "flex",
         flexDirection: "column"
       }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-          <Typography 
-            variant="h6" 
-            sx={{ 
-              fontWeight: 700,
-              color: "#1E293B",
-              fontSize: "20px",
-              fontFamily: "'Poppins', sans-serif"
-            }}
-          >
-            Customer Satisfaction
-          </Typography>
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <Typography 
-                variant="body2" 
-                sx={{ 
-                  fontWeight: 600,
-                  fontFamily: "'Poppins', sans-serif"
-                }}
-              >
-                Last Month
-              </Typography>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  fontWeight: 700, 
-                  color: "#3B82F6",
-                  fontFamily: "'Poppins', sans-serif"
-                }}
-              >
-                $3,004
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <Typography 
-                variant="body2" 
-                sx={{ 
-                  fontWeight: 600,
-                  fontFamily: "'Poppins', sans-serif"
-                }}
-              >
-                This Month
-              </Typography>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  fontWeight: 700, 
-                  color: "#10B981",
-                  fontFamily: "'Poppins', sans-serif"
-                }}
-              >
-                $4,504
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
+        <Typography 
+          sx={{ 
+            fontWeight: 600,
+            color: "#05004E",
+            fontSize: "20px",
+            lineHeight: "32px",
+            fontFamily: "'Poppins', sans-serif",
+            mb: 3
+          }}
+        >
+          Customer Satisfaction
+        </Typography>
 
-        <Box sx={{ flex: 1, minHeight: 0 }}>
+        <Box sx={{ flex: 1, minHeight: 0, position: "relative" }}>
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+            <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 40 }}>
               <defs>
                 <linearGradient id="colorLastMonth" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#4079ED" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#4079ED" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="colorThisMonth" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#10B981" stopOpacity={0.3} />
                   <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#64748B" }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#64748B" }} />
-              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#7B91B0", fontFamily: "'Poppins', sans-serif" }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#7B91B0", fontFamily: "'Poppins', sans-serif" }} />
+              <CartesianGrid strokeDasharray="1 1" stroke="#F1F5F9" strokeWidth={1} vertical={false} />
               <Area
                 type="monotone"
                 dataKey="lastMonth"
-                stroke="#3B82F6"
+                stroke="#4079ED"
                 fillOpacity={1}
                 fill="url(#colorLastMonth)"
-                strokeWidth={2}
+                strokeWidth={2.5}
               />
               <Area
                 type="monotone"
@@ -120,10 +75,81 @@ export default function CustomerSatisfaction() {
                 stroke="#10B981"
                 fillOpacity={1}
                 fill="url(#colorThisMonth)"
-                strokeWidth={2}
+                strokeWidth={2.5}
               />
             </AreaChart>
           </ResponsiveContainer>
+          
+          {/* Legend positioned at bottom like Figma */}
+          <Box sx={{ 
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            display: "flex",
+            justifyContent: "center",
+            gap: "24px",
+            padding: "8px 0"
+          }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <Box sx={{ 
+                width: "12px", 
+                height: "3px", 
+                backgroundColor: "#4079ED",
+                borderRadius: "2px"
+              }} />
+              <Typography 
+                sx={{ 
+                  fontSize: "12px",
+                  color: "#7B91B0",
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: 400
+                }}
+              >
+                Last Month
+              </Typography>
+              <Typography 
+                sx={{ 
+                  fontSize: "14px",
+                  color: "#05004E",
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: 600,
+                  ml: "4px"
+                }}
+              >
+                $3,004
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <Box sx={{ 
+                width: "12px", 
+                height: "3px", 
+                backgroundColor: "#10B981",
+                borderRadius: "2px"
+              }} />
+              <Typography 
+                sx={{ 
+                  fontSize: "12px",
+                  color: "#7B91B0",
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: 400
+                }}
+              >
+                This Month
+              </Typography>
+              <Typography 
+                sx={{ 
+                  fontSize: "14px",
+                  color: "#05004E",
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: 600,
+                  ml: "4px"
+                }}
+              >
+                $4,504
+              </Typography>
+            </Box>
+          </Box>
         </Box>
       </CardContent>
     </Card>
