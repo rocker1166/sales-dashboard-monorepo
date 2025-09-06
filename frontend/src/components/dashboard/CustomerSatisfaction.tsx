@@ -1,23 +1,85 @@
 "use client"
 import { Card, CardContent, Typography, Box } from "@mui/material"
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts"
-
-const data = [
-  { month: "Jan", lastMonth: 3.2, thisMonth: 3.8 },
-  { month: "Feb", lastMonth: 3.4, thisMonth: 4.0 },
-  { month: "Mar", lastMonth: 3.1, thisMonth: 3.9 },
-  { month: "Apr", lastMonth: 3.3, thisMonth: 4.2 },
-  { month: "May", lastMonth: 3.0, thisMonth: 4.1 },
-  { month: "Jun", lastMonth: 3.2, thisMonth: 4.3 },
-  { month: "Jul", lastMonth: 3.5, thisMonth: 4.5 },
-  { month: "Aug", lastMonth: 3.4, thisMonth: 4.4 },
-  { month: "Sep", lastMonth: 3.6, thisMonth: 4.6 },
-  { month: "Oct", lastMonth: 3.3, thisMonth: 4.3 },
-  { month: "Nov", lastMonth: 3.1, thisMonth: 4.1 },
-  { month: "Dec", lastMonth: 3.0, thisMonth: 4.0 },
-]
+import { useCustomerSatisfaction } from "@/hooks/useDashboardData"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import ErrorDisplay from "@/components/ui/ErrorDisplay"
 
 export default function CustomerSatisfaction() {
+  const { data: satisfactionData, isLoading, error, refetch } = useCustomerSatisfaction();
+
+  // Transform API data to chart format (convert to 5-point scale)
+  const chartData = satisfactionData?.map(item => ({
+    month: item.month.substring(0, 3), // Short month name
+    lastMonth: item.lastMonth / 20, // Convert from 100-point to 5-point scale
+    thisMonth: item.thisMonth / 20,
+  })) || [];
+
+  if (isLoading) {
+    return (
+      <Card sx={{ 
+        height: "351px", 
+        borderRadius: "20px", 
+        border: "1px solid #F8F9FA",
+        backgroundColor: "white",
+        boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+        width: "100%"
+      }}>
+        <CardContent sx={{ 
+          p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
+          height: "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <LoadingSpinner message="Loading customer satisfaction data..." fullHeight />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card sx={{ 
+        height: "351px", 
+        borderRadius: "20px", 
+        border: "1px solid #F8F9FA",
+        backgroundColor: "white",
+        boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+        width: "100%"
+      }}>
+        <CardContent sx={{ 
+          p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
+          height: "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <ErrorDisplay message={error} onRetry={refetch} fullHeight />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!satisfactionData || satisfactionData.length === 0) {
+    return (
+      <Card sx={{ 
+        height: "351px", 
+        borderRadius: "20px", 
+        border: "1px solid #F8F9FA",
+        backgroundColor: "white",
+        boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+        width: "100%"
+      }}>
+        <CardContent sx={{ 
+          p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
+          height: "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <ErrorDisplay message="No customer satisfaction data available" fullHeight showRetry={false} />
+        </CardContent>
+      </Card>
+    );
+  }
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -91,7 +153,7 @@ export default function CustomerSatisfaction() {
         <Box sx={{ flex: 1, minHeight: 0, position: "relative" }}>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
-              data={data} 
+              data={chartData} 
               margin={{ top: 10, right: 30, left: 0, bottom: 40 }}
             >
               <defs>

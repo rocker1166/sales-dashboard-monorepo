@@ -122,13 +122,14 @@ export default function VolumeVsService() {
           gap: "20px"
         }}>
           {/* Volume Section */}
-          <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <Box sx={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
             <Box
               sx={{
                 width: "12px",
                 height: "12px",
                 borderRadius: "6px",
                 backgroundColor: "#0095FF",
+                marginTop: "9px", // Align with the center of the first line of text
               }}
             />
             <Box>
@@ -167,13 +168,14 @@ export default function VolumeVsService() {
           />
 
           {/* Services Section */}
-          <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <Box sx={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
             <Box
               sx={{
                 width: "12px",
                 height: "12px",
                 borderRadius: "6px",
                 backgroundColor: "#00E096",
+                marginTop: "9px", // Align with the center of the first line of text
               }}
             />
             <Box>

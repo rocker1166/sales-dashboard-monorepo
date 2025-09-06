@@ -1,18 +1,85 @@
 "use client"
 import { Card, CardContent, Typography, Box } from "@mui/material"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Tooltip } from "recharts"
-
-const data = [
-  { day: "Monday", onlineSales: 14, offlineSales: 12 },
-  { day: "Tuesday", onlineSales: 17, offlineSales: 12 },
-  { day: "Wednesday", onlineSales: 6, offlineSales: 22 },
-  { day: "Thursday", onlineSales: 16, offlineSales: 6 },
-  { day: "Friday", onlineSales: 12, offlineSales: 11.5 },
-  { day: "Saturday", onlineSales: 17, offlineSales: 13 },
-  { day: "Sunday", onlineSales: 21, offlineSales: 11 },
-]
+import { useRevenue } from "@/hooks/useDashboardData"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import ErrorDisplay from "@/components/ui/ErrorDisplay"
 
 export default function TotalRevenue() {
+  const { data: revenueData, isLoading, error, refetch } = useRevenue();
+
+  // Transform API data to chart format (convert to thousands for display)
+  const chartData = revenueData?.map(item => ({
+    day: item.day,
+    onlineSales: Math.round(item.onlineSales / 1000 * 10) / 10, // Convert to k format
+    offlineSales: Math.round(item.offlineSales / 1000 * 10) / 10,
+  })) || [];
+
+  if (isLoading) {
+    return (
+      <Card sx={{ 
+        height: "351px", 
+        borderRadius: "20px", 
+        border: "1px solid #F8F9FA",
+        backgroundColor: "white",
+        boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+        width: "100%"
+      }}>
+        <CardContent sx={{ 
+          p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
+          height: "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <LoadingSpinner message="Loading revenue data..." fullHeight />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card sx={{ 
+        height: "351px", 
+        borderRadius: "20px", 
+        border: "1px solid #F8F9FA",
+        backgroundColor: "white",
+        boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+        width: "100%"
+      }}>
+        <CardContent sx={{ 
+          p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
+          height: "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <ErrorDisplay message={error} onRetry={refetch} fullHeight />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!revenueData || revenueData.length === 0) {
+    return (
+      <Card sx={{ 
+        height: "351px", 
+        borderRadius: "20px", 
+        border: "1px solid #F8F9FA",
+        backgroundColor: "white",
+        boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+        width: "100%"
+      }}>
+        <CardContent sx={{ 
+          p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
+          height: "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <ErrorDisplay message="No revenue data available" fullHeight showRetry={false} />
+        </CardContent>
+      </Card>
+    );
+  }
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -92,7 +159,7 @@ export default function TotalRevenue() {
         }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart 
-              data={data} 
+              data={chartData} 
               margin={{ 
                 top: 5, 
                 right: 5,  

@@ -1,14 +1,97 @@
 "use client"
 import { Card, CardContent, Typography, Box, LinearProgress } from "@mui/material"
+import { useTopProducts } from "@/hooks/useDashboardData"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import ErrorDisplay from "@/components/ui/ErrorDisplay"
 
-const products = [
-  { id: "01", name: "Home Decor Range", popularity: 45, sales: "45%", color: "#3B82F6", bgColor: "#F0F9FF" },
-  { id: "02", name: "Disney Princess Pink Bag 18", popularity: 29, sales: "29%", color: "#10B981", bgColor: "#F0FDF4" },
-  { id: "03", name: "Bathroom Essentials", popularity: 18, sales: "18%", color: "#8B5CF6", bgColor: "#F3E8FF" },
-  { id: "04", name: "Apple Smartwatches", popularity: 25, sales: "25%", color: "#F59E0B", bgColor: "#FEF3E6" },
-]
+// Color palette for products
+const colorPalette = [
+  { color: "#3B82F6", bgColor: "#F0F9FF" },
+  { color: "#10B981", bgColor: "#F0FDF4" },
+  { color: "#8B5CF6", bgColor: "#F3E8FF" },
+  { color: "#F59E0B", bgColor: "#FEF3E6" },
+  { color: "#EF4444", bgColor: "#FEF2F2" },
+  { color: "#06B6D4", bgColor: "#F0FDFA" },
+];
 
 export default function TopProducts() {
+  const { data: productsData, isLoading, error, refetch } = useTopProducts();
+
+  // Transform API data to component format
+  const products = productsData?.map((product, index) => ({
+    id: product.id.toString(),
+    name: product.name,
+    popularity: product.popularity,
+    sales: `${product.sales}%`,
+    color: colorPalette[index % colorPalette.length].color,
+    bgColor: colorPalette[index % colorPalette.length].bgColor,
+  })) || [];
+
+  if (isLoading) {
+    return (
+      <Card sx={{ 
+        height: "351px", 
+        borderRadius: "20px", 
+        border: "1px solid #F8F9FA",
+        backgroundColor: "white",
+        boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+        width: "100%"
+      }}>
+        <CardContent sx={{ 
+          p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
+          height: "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <LoadingSpinner message="Loading top products..." fullHeight />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card sx={{ 
+        height: "351px", 
+        borderRadius: "20px", 
+        border: "1px solid #F8F9FA",
+        backgroundColor: "white",
+        boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+        width: "100%"
+      }}>
+        <CardContent sx={{ 
+          p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
+          height: "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <ErrorDisplay message={error} onRetry={refetch} fullHeight />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!productsData || productsData.length === 0) {
+    return (
+      <Card sx={{ 
+        height: "351px", 
+        borderRadius: "20px", 
+        border: "1px solid #F8F9FA",
+        backgroundColor: "white",
+        boxShadow: "0px 4px 20px 0px rgba(238, 238, 238, 0.5)",
+        width: "100%"
+      }}>
+        <CardContent sx={{ 
+          p: { xs: "16px", sm: "20px", md: "24px", lg: "28px", xl: "32px" }, 
+          height: "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <ErrorDisplay message="No top products data available" fullHeight showRetry={false} />
+        </CardContent>
+      </Card>
+    );
+  }
   return (
     <Card sx={{ 
       height: "351px", 
