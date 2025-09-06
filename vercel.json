@@ -28,10 +28,5 @@
     "env": {
       "SKIP_ENV_VALIDATION": "1"
     }
-  },
-  "functions": {
-    "frontend/src/app/**": {
-      "includeFiles": "frontend/public/**"
-    }
   }
 }
