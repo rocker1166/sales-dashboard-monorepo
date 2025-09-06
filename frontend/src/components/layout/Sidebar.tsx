@@ -1,0 +1,163 @@
+"use client"
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  Button,
+  Card,
+  CardContent,
+} from "@mui/material"
+import {
+  Dashboard as DashboardIcon,
+  Leaderboard as LeaderboardIcon,
+  ShoppingCart as OrderIcon,
+  Inventory as ProductsIcon,
+  Assessment as SalesReportIcon,
+  Message as MessagesIcon,
+  Settings as SettingsIcon,
+  ExitToApp as SignOutIcon,
+  AttachMoney as MoneyIcon,
+} from "@mui/icons-material"
+
+const menuItems = [
+  { text: "Dashboard", icon: <DashboardIcon />, active: true },
+  { text: "Leaderboard", icon: <LeaderboardIcon />, active: false },
+  { text: "Order", icon: <OrderIcon />, active: false },
+  { text: "Products", icon: <ProductsIcon />, active: false },
+  { text: "Sales Report", icon: <SalesReportIcon />, active: false },
+  { text: "Messages", icon: <MessagesIcon />, active: false },
+  { text: "Settings", icon: <SettingsIcon />, active: false },
+  { text: "Sign Out", icon: <SignOutIcon />, active: false },
+]
+
+export default function Sidebar() {
+  return (
+    <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      {/* Logo */}
+      <Box sx={{ p: 3, pt: 5, display: "flex", alignItems: "center", gap: 2 }}>
+        <Box
+          sx={{
+            width: 40,
+            height: 40,
+            borderRadius: 2,
+            backgroundColor: "primary.main",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "white",
+          }}
+        >
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="56" height="56" rx="8" fill="#5D5FEF"/>
+<path d="M22.3743 17.6274C21.2422 18.7804 21.2422 20.6463 22.3952 21.7994L24.911 24.3151C27.28 26.6842 27.28 30.5417 24.911 32.9107L20.2988 28.2985C19.1143 27.1139 18.5168 25.5521 18.5168 24.0007C18.5168 22.4493 19.1143 20.8874 20.2988 19.7029L22.3428 17.6588C22.3533 17.6483 22.3638 17.6379 22.3743 17.6274Z" fill="#5D5FEF" stroke="white" stroke-width="2" stroke-miterlimit="10"/>
+<path d="M24.3868 23.7899L22.3951 21.7983C21.2421 20.6452 21.2316 18.7898 22.3742 17.6263C23.5063 16.5151 25.3092 16.5361 26.4309 17.6577C26.9969 18.2238 27.2799 18.968 27.2799 19.7018C27.2799 20.4356 26.9969 21.1798 26.4309 21.7459L25.9591 22.2176" fill="#5D5FEF"/>
+<path d="M24.3868 23.7899L22.3951 21.7983C21.2421 20.6452 21.2316 18.7898 22.3742 17.6263C23.5063 16.5151 25.3092 16.5361 26.4309 17.6577C26.9969 18.2238 27.2799 18.968 27.2799 19.7018C27.2799 20.4356 26.9969 21.1798 26.4309 21.7459L25.9591 22.2176" stroke="white" stroke-width="2" stroke-miterlimit="10"/>
+<path d="M34.2715 38.2246C35.4036 37.0715 35.4036 35.2056 34.2505 34.0526L31.7348 31.5368C29.3657 29.1678 29.3657 25.3102 31.7348 22.9412L36.347 27.5535C37.5315 28.738 38.129 30.2999 38.129 31.8513C38.129 33.4027 37.5315 34.9645 36.347 36.149L34.3029 38.1931C34.282 38.2141 34.2715 38.2246 34.2715 38.2246Z" fill="#5D5FEF" stroke="white" stroke-width="2" stroke-miterlimit="10"/>
+<path d="M32.2479 32.0713L34.2396 34.063C35.3926 35.2161 35.4031 37.0715 34.2606 38.235C33.1285 39.3461 31.3255 39.3252 30.2039 38.2036C29.6378 37.6375 29.3548 36.8933 29.3548 36.1595C29.3548 35.4257 29.6378 34.6815 30.2039 34.1154L30.686 33.6332" fill="#5D5FEF"/>
+<path d="M32.2479 32.0713L34.2396 34.063C35.3926 35.2161 35.4031 37.0715 34.2606 38.235C33.1285 39.3461 31.3255 39.3252 30.2039 38.2036C29.6378 37.6375 29.3548 36.8933 29.3548 36.1595C29.3548 35.4257 29.6378 34.6815 30.2039 34.1154L30.686 33.6332" stroke="white" stroke-width="2" stroke-miterlimit="10"/>
+          </svg>
+
+        </Box>
+        <Typography variant="h6" sx={{ 
+            fontFamily: "Poppins", 
+            fontWeight: 600, 
+            fontSize: "30px",
+            lineHeight: "150%", 
+            letterSpacing: "0px",
+            color: "text.primary" 
+          }}>
+          Dabang
+        </Typography>
+      </Box>
+
+      {/* Navigation Menu */}
+      <Box sx={{ flex: 1, px: 2 , mt: 5 }}>
+        <List sx={{ gap: "48px" }}>
+          {menuItems.map((item, index) => (
+            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
+              <ListItemButton
+                sx={{
+                  borderRadius: 2,
+                  backgroundColor: item.active ? "primary.main" : "transparent",
+                  color: item.active ? "white" : "text.secondary",
+                  "&:hover": {
+                    backgroundColor: item.active ? "primary.dark" : "grey.100",
+                  },
+                  py: 1.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    color: item.active ? "white" : "text.secondary",
+                    minWidth: 40,
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  primaryTypographyProps={{
+                    fontSize: "0.875rem",
+                    fontWeight: item.active ? 600 : 500,
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+
+      {/* Upgrade Card */}
+      <Box sx={{ p: 2 }}>
+        <Card
+          sx={{
+            background: "linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)",
+            color: "white",
+            borderRadius: 3,
+          }}
+        >
+          <CardContent sx={{ p: 3, "&:last-child": { pb: 3 } }}>
+            <Box
+              sx={{
+                width: 48,
+                height: 48,
+                borderRadius: 2,
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                mb: 2,
+              }}
+            >
+              <MoneyIcon />
+            </Box>
+            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+              Dabang Pro
+            </Typography>
+            <Typography variant="body2" sx={{ opacity: 0.9, mb: 2, fontSize: "0.75rem" }}>
+              Get access to all features on Dabang
+            </Typography>
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: "white",
+                color: "primary.main",
+                fontWeight: 600,
+                "&:hover": {
+                  backgroundColor: "grey.100",
+                },
+              }}
+            >
+              Get Pro
+            </Button>
+          </CardContent>
+        </Card>
+      </Box>
+    </Box>
+  )
+}
