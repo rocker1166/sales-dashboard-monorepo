@@ -42,7 +42,31 @@ export class RevenueResponseDto {
 }
 
 export class CustomerSatisfactionResponseDto {
-  @ApiProperty({ description: "Month" })
+  @ApiProperty({ description: "Satisfaction record ID" })
+  @IsNumber()
+  id: number
+
+  @ApiProperty({ description: "Customer ID" })
+  @IsString()
+  customerId: string
+
+  @ApiProperty({ description: "Rating (1-5)" })
+  @IsNumber()
+  rating: number
+
+  @ApiProperty({ description: "Customer feedback" })
+  @IsString()
+  feedback: string
+
+  @ApiProperty({ description: "Survey date" })
+  @IsDate()
+  surveyDate: Date
+
+  @ApiProperty({ description: "Record creation date" })
+  @IsDate()
+  createdAt: Date
+
+  @ApiProperty({ description: "Month of survey" })
   @IsString()
   month: string
 
@@ -53,10 +77,6 @@ export class CustomerSatisfactionResponseDto {
   @ApiProperty({ description: "This month satisfaction score" })
   @IsNumber()
   thisMonth: number
-
-  @ApiProperty({ description: "Record creation date" })
-  @IsDate()
-  createdAt: Date
 }
 
 export class VisitorInsightsResponseDto {

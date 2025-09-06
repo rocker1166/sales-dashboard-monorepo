@@ -196,37 +196,31 @@ export class DashboardService {
       
       const { data: satisfactionData } = await supabase
         .from('customer_satisfaction')
-        .select('rating, survey_date')
+        .select('id, customer_id, rating, feedback, survey_date, created_at')
         .order('survey_date', { ascending: true })
       
       if (!satisfactionData || satisfactionData.length === 0) {
         return []
       }
       
-      // Group by month and calculate averages
-      const monthlyData = new Map<string, { ratings: number[], dates: Date[] }>()
-      
-      satisfactionData.forEach(item => {
+      // Return individual customer satisfaction records with all fields
+      return satisfactionData.map((item, index) => {
         const date = new Date(item.survey_date)
         const monthKey = date.toLocaleDateString('en-US', { month: 'short' })
         
-        if (!monthlyData.has(monthKey)) {
-          monthlyData.set(monthKey, { ratings: [], dates: [] })
-        }
-        
-        monthlyData.get(monthKey)!.ratings.push(item.rating)
-        monthlyData.get(monthKey)!.dates.push(date)
-      })
-      
-      return Array.from(monthlyData.entries()).map(([month, data]) => {
-        const avgRating = data.ratings.reduce((sum, rating) => sum + rating, 0) / data.ratings.length
-        const lastMonthRating = avgRating - 0.2 // Simulate previous month data
+        // Calculate a simulated previous month rating (slightly lower)
+        const lastMonthRating = Math.max(1, item.rating - 0.5)
         
         return {
-          month,
+          id: item.id,
+          customerId: item.customer_id,
+          rating: item.rating,
+          feedback: item.feedback || '',
+          surveyDate: date,
+          createdAt: new Date(item.created_at),
+          month: monthKey,
           lastMonth: Math.round(lastMonthRating * 20), // Convert to 100-point scale
-          thisMonth: Math.round(avgRating * 20),
-          createdAt: data.dates[0],
+          thisMonth: Math.round(item.rating * 20), // Convert to 100-point scale
         }
       })
     } catch (error) {

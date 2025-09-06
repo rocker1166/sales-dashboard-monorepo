@@ -54,12 +54,28 @@ INSERT INTO revenue_analytics (date, day_of_week, online_sales, offline_sales) V
   (CURRENT_DATE - INTERVAL '1 day', 'Saturday', 22000, 15000),
   (CURRENT_DATE, 'Sunday', 20000, 13000);
 
--- Insert customer satisfaction data
+-- Insert customer satisfaction data spanning multiple months
 INSERT INTO customer_satisfaction (customer_id, rating, feedback, survey_date) VALUES
-  ('550e8400-e29b-41d4-a716-446655440002', 5, 'Excellent service!', CURRENT_DATE - INTERVAL '30 days'),
-  ('550e8400-e29b-41d4-a716-446655440003', 4, 'Very good experience', CURRENT_DATE - INTERVAL '25 days'),
-  ('550e8400-e29b-41d4-a716-446655440004', 5, 'Outstanding quality', CURRENT_DATE - INTERVAL '20 days'),
-  ('550e8400-e29b-41d4-a716-446655440005', 4, 'Great products', CURRENT_DATE - INTERVAL '15 days');
+  ('550e8400-e29b-41d4-a716-446655440002', 5, 'Excellent service!', '2024-01-15'),
+  ('550e8400-e29b-41d4-a716-446655440003', 4, 'Very good experience', '2024-01-20'),
+  ('550e8400-e29b-41d4-a716-446655440004', 5, 'Outstanding quality', '2024-02-10'),
+  ('550e8400-e29b-41d4-a716-446655440005', 4, 'Great products', '2024-02-25'),
+  ('550e8400-e29b-41d4-a716-446655440002', 5, 'Amazing customer support!', '2024-03-05'),
+  ('550e8400-e29b-41d4-a716-446655440003', 3, 'Good but could be better', '2024-03-18'),
+  ('550e8400-e29b-41d4-a716-446655440004', 4, 'Satisfied with purchase', '2024-04-12'),
+  ('550e8400-e29b-41d4-a716-446655440005', 5, 'Perfect! Will buy again', '2024-04-28'),
+  ('550e8400-e29b-41d4-a716-446655440001', 4, 'Good overall experience', '2024-05-08'),
+  ('550e8400-e29b-41d4-a716-446655440002', 5, 'Exceeded expectations', '2024-05-22'),
+  ('550e8400-e29b-41d4-a716-446655440003', 4, 'Great value for money', '2024-06-14'),
+  ('550e8400-e29b-41d4-a716-446655440004', 5, 'Highly recommended', '2024-06-30'),
+  ('550e8400-e29b-41d4-a716-446655440005', 3, 'Average experience', '2024-07-10'),
+  ('550e8400-e29b-41d4-a716-446655440001', 4, 'Good service overall', '2024-07-25'),
+  ('550e8400-e29b-41d4-a716-446655440002', 5, 'Outstanding!', '2024-08-05'),
+  ('550e8400-e29b-41d4-a716-446655440003', 4, 'Very satisfied', '2024-08-18'),
+  ('550e8400-e29b-41d4-a716-446655440004', 5, 'Excellent quality', '2024-09-02'),
+  ('550e8400-e29b-41d4-a716-446655440005', 4, 'Good experience', '2024-09-15'),
+  ('550e8400-e29b-41d4-a716-446655440001', 5, 'Perfect service', '2024-10-08'),
+  ('550e8400-e29b-41d4-a716-446655440002', 4, 'Very good', '2024-10-20');
 
 -- Insert sales targets data
 INSERT INTO sales_targets (month, target_sales, reality_sales) VALUES
