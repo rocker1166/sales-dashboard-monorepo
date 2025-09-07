@@ -1,6 +1,10 @@
 # Sales Dashboard Monorepo
 
 A production-ready full-stack sales dashboard built with Next.js, NestJS, and Supabase.
+<img width="1354" height="738" alt="image" src="https://github.com/user-attachments/assets/73b5bd97-2e9f-41a5-87be-bc45cefc11a4" />
+<img width="375" height="770" alt="image" src="https://github.com/user-attachments/assets/0eabdeca-9c17-4387-a940-5ed567ad8100" />
+
+
 
 ## 🚀 Tech Stack
 
