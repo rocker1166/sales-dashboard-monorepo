@@ -4,6 +4,7 @@ import { BarChart, ShoppingCart, CheckCircle, People, FileDownload } from "@mui/
 import { useMetrics } from "@/hooks/useDashboardData"
 import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import ErrorDisplay from "@/components/ui/ErrorDisplay"
+import { JSX } from "react"
 
 // Icon mapping for different metric types
 const getIconForMetric = (iconName: string) => {

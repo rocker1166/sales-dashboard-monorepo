@@ -21,64 +21,65 @@ function useApiData<T>(
   fetchFunction: () => Promise<T>,
   dependencies: any[] = []
 ): ApiState<T> {
-  const [state, setState] = useState<ApiState<T>>({
-    data: null,
-    isLoading: true,
-    error: null,
-  });
-
   const fetchData = useCallback(async () => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
     
     try {
       const data = await fetchFunction();
-      setState({ data, isLoading: false, error: null });
+      setState(prev => ({ ...prev, data, isLoading: false, error: null }));
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-      setState({ data: null, isLoading: false, error: errorMessage });
+      setState(prev => ({ ...prev, data: null, isLoading: false, error: errorMessage }));
       console.error('API fetch error:', error);
     }
   }, dependencies);
+
+  const [state, setState] = useState<ApiState<T>>({
+    data: null,
+    isLoading: true,
+    error: null,
+    refetch: fetchData,
+  });
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  return { ...state, refetch: fetchData };
+  return state;
 }
 
 /**
  * Hook for fetching metrics data
  */
-export function useMetrics(): ApiState<MetricsApiResponse> & { refetch: () => void } {
+export function useMetrics(): ApiState<MetricsApiResponse> {
   return useApiData(() => dashboardApiService.getMetrics());
 }
 
 /**
  * Hook for fetching revenue data
  */
-export function useRevenue(): ApiState<RevenueApiResponse> & { refetch: () => void } {
+export function useRevenue(): ApiState<RevenueApiResponse> {
   return useApiData(() => dashboardApiService.getRevenue());
 }
 
 /**
  * Hook for fetching customer satisfaction data
  */
-export function useCustomerSatisfaction(): ApiState<CustomerSatisfactionApiResponse> & { refetch: () => void } {
+export function useCustomerSatisfaction(): ApiState<CustomerSatisfactionApiResponse> {
   return useApiData(() => dashboardApiService.getCustomerSatisfaction());
 }
 
 /**
  * Hook for fetching visitor insights data
  */
-export function useVisitorInsights(): ApiState<VisitorInsightsApiResponse> & { refetch: () => void } {
+export function useVisitorInsights(): ApiState<VisitorInsightsApiResponse> {
   return useApiData(() => dashboardApiService.getVisitorInsights());
 }
 
 /**
  * Hook for fetching top products data
  */
-export function useTopProducts(): ApiState<TopProductsApiResponse> & { refetch: () => void } {
+export function useTopProducts(): ApiState<TopProductsApiResponse> {
   return useApiData(() => dashboardApiService.getTopProducts());
 }
 

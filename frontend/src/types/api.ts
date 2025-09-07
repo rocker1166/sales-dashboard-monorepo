@@ -70,4 +70,5 @@ export interface LoadingState {
 
 export interface ApiState<T> extends LoadingState {
   data: T | null;
+  refetch: () => void;
 }
