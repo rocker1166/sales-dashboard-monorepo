@@ -27,14 +27,14 @@ A production-ready full-stack sales dashboard built with Next.js, NestJS, and Su
 │   │   ├── hooks/     # Custom hooks
 │   │   ├── lib/       # Utilities and configurations
 │   │   ├── store/     # Zustand stores
-│   │   └── theme/     # MUI theme configuration
+│   │   └── theme/    # MUI theme configuration
 ├── backend/           # NestJS application
 │   ├── src/
 │   │   ├── config/    # Environment configuration
 │   │   ├── supabase/  # Supabase client wrapper
 │   │   ├── dashboard/ # Dashboard module
 │   │   └── common/    # Shared utilities
-└── supabase/         # Database migrations and seeds
+         # Database migrations and seeds
 \`\`\`
 
 ## 🛠️ Setup Instructions
